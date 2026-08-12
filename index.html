@@ -17,7 +17,7 @@
 	<div class="brand">
 		<svg class="logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h7.5M4 12h5M4 17h9"/><path d="M15 5l4.5 7-4.5 7"/></svg>
 		<h1>Clash<span>2</span>SingBox</h1>
-		<span class="ver" id="ver">v1.3.5</span>
+		<span class="ver" id="ver">v1.3.6</span>
 	</div>
 	<div class="bar-mid">
 		<div class="seg" id="modeSeg" role="radiogroup" aria-label="输出模式">
@@ -25,21 +25,24 @@
 			<button class="seg-btn is-on" type="button" role="radio" data-mode="full" aria-checked="true">完整配置</button>
 		</div>
 		<input type="hidden" id="opt-mode" data-opt="mode" value="full">
-		<label class="field compact"><span>目标内核</span>
-			<select id="opt-target" data-opt="target">
-				<option value="modern">sing-box 1.12 – 1.14.x（推荐）</option>
-				<option value="legacy">sing-box 1.11 旧版兼容</option>
-			</select>
-		</label>
-		<label class="field compact"><span>客户端</span>
-			<select id="opt-preset" data-opt="preset">
-				<option value="universal">通用</option>
-				<option value="android">SFA・Android</option>
-				<option value="apple">SFI / SFM・iOS 与 macOS</option>
-				<option value="desktop">sing-box 桌面版</option>
-				<option value="gui">GUI.for.SingBox</option>
-			</select>
-		</label>
+		<div class="toolbar-config" aria-label="转换目标">
+			<label class="field compact"><span>目标内核</span>
+				<select id="opt-target" data-opt="target">
+					<option value="modern">sing-box 1.12 – 1.13（稳定兼容・推荐）</option>
+					<option value="latest">sing-box 1.14+（新格式）</option>
+					<option value="legacy">sing-box 1.11 旧版兼容</option>
+				</select>
+			</label>
+			<label class="field compact"><span>客户端</span>
+				<select id="opt-preset" data-opt="preset">
+					<option value="universal">通用</option>
+					<option value="android">SFA・Android</option>
+					<option value="apple">SFI / SFM・iOS 与 macOS</option>
+					<option value="desktop">sing-box 桌面版</option>
+					<option value="gui">GUI.for.SingBox</option>
+				</select>
+			</label>
+		</div>
 	</div>
 	<div class="bar-end">
 		<button class="btn ghost" id="railToggle" type="button" aria-controls="rail" aria-expanded="true" title="显示 / 收起转换选项">⚙ 设置</button>
