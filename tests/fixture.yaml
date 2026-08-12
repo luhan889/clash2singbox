@@ -1,0 +1,219 @@
+# 测试用 Clash / mihomo 配置，覆盖全部支持的协议与语法
+mixed-port: 7890
+allow-lan: false
+mode: rule
+log-level: info
+external-controller: 127.0.0.1:9091
+secret: "s3cret"
+tun:
+  enable: true
+  stack: system
+  mtu: 9000
+  strict-route: true
+dns:
+  enable: true
+  ipv6: false
+  fake-ip-range: 198.18.0.1/16
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  nameserver:
+    - https://dns.alidns.com/dns-query
+    - tls://dot.pub
+  fallback:
+    - https://1.1.1.1/dns-query
+    - quic://dns.adguard.com
+  fake-ip-filter:
+    - "*.lan"
+    - "+.local"
+    - time.windows.com
+  nameserver-policy:
+    "geosite:cn,+.example.com": https://223.5.5.5/dns-query
+    "+.internal.corp": 10.0.0.53
+hosts:
+  router.local: 192.168.1.1
+  dual.local: [10.0.0.1, 10.0.0.2]
+proxies:
+  - name: "SS-2022"
+    type: ss
+    server: ss.example.com
+    port: 8388
+    cipher: 2022-blake3-aes-128-gcm
+    password: "psk123="
+    udp: true
+    udp-over-tcp: true
+  - name: "SS-Obfs"
+    type: ss
+    server: 1.2.3.4
+    port: 443
+    cipher: aes-128-gcm
+    password: pwd
+    plugin: obfs
+    plugin-opts:
+      mode: tls
+      host: bing.com
+  - name: "SS-RC4-应该被跳过"
+    type: ss
+    server: 1.2.3.5
+    port: 443
+    cipher: rc4-md5
+    password: pwd
+  - {name: "VMess-WS-TLS", type: vmess, server: v.example.com, port: 443, uuid: b831381d-6324-4d53-ad4f-8cda48b30811, alterId: 0, cipher: auto, tls: true, servername: v.example.com, network: ws, ws-opts: {path: "/path?ed=2048", headers: {Host: v.example.com}}}
+  - name: "VLESS-Reality-Vision"
+    type: vless
+    server: r.example.com
+    port: 443
+    uuid: 23ad6b10-8d1a-40f7-8ad0-e3e35cd38297
+    flow: xtls-rprx-vision
+    tls: true
+    servername: www.microsoft.com
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: PUBKEY_TEST_ONLY
+      short-id: 6ba85179e30d4fc2
+  - name: "VLESS-gRPC"
+    type: vless
+    server: g.example.com
+    port: 443
+    uuid: 23ad6b10-8d1a-40f7-8ad0-e3e35cd38297
+    tls: true
+    network: grpc
+    grpc-opts:
+      grpc-service-name: GunService
+  - name: "Trojan-Mux"
+    type: trojan
+    server: t.example.com
+    port: 443
+    password: trojanpass
+    sni: t.example.com
+    skip-cert-verify: true
+    smux:
+      enabled: true
+      protocol: h2mux
+      max-connections: 4
+      brutal-opts:
+        enabled: true
+        up: "50 Mbps"
+        down: 100
+  - name: "Hysteria2-Hop"
+    type: hysteria2
+    server: h2.example.com
+    port: 443
+    ports: 20000-30000
+    password: hy2pass
+    obfs: salamander
+    obfs-password: obfspwd
+    up: "100 Mbps"
+    down: "500 Mbps"
+    sni: h2.example.com
+  - name: "Hysteria1"
+    type: hysteria
+    server: h1.example.com
+    port: 8443
+    auth-str: hyauth
+    up: 50
+    down: 200
+    protocol: udp
+    sni: h1.example.com
+  - name: "TUIC-v5"
+    type: tuic
+    server: tu.example.com
+    port: 443
+    uuid: 00000000-0000-0000-0000-000000000000
+    password: tuicpass
+    congestion-controller: bbr
+    udp-relay-mode: native
+    reduce-rtt: true
+    heartbeat-interval: 10000
+    sni: tu.example.com
+    alpn: [h3]
+  - name: "AnyTLS"
+    type: anytls
+    server: a.example.com
+    port: 8443
+    password: anytlspass
+    sni: a.example.com
+  - name: "WireGuard"
+    type: wireguard
+    server: wg.example.com
+    port: 51820
+    ip: 10.0.0.2
+    private-key: cHJpdmF0ZWtleTAwMDAwMDAwMDAwMDAwMDAwMDAwMDA=
+    public-key: cHVibGlja2V5MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA=
+    reserved: AAAA
+    mtu: 1408
+  - name: "SSR-应该被跳过"
+    type: ssr
+    server: s.example.com
+    port: 443
+    cipher: aes-256-cfb
+    password: p
+    obfs: plain
+    protocol: origin
+  - name: "Socks-Chain"
+    type: socks5
+    server: 127.0.0.1
+    port: 1080
+    dialer-proxy: Trojan-Mux
+proxy-groups:
+  - name: "节点选择"
+    type: select
+    proxies:
+      - "♻️ 自动选择"
+      - DIRECT
+      - "SS-2022"
+      - "VLESS-Reality-Vision"
+      - "不存在的节点"
+  - name: "♻️ 自动选择"
+    type: url-test
+    include-all: true
+    exclude-filter: "(?i)ssr|socks|跳过"
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+  - name: "直连"
+    type: select
+    proxies: [DIRECT, "节点选择"]
+  - name: "拦截"
+    type: select
+    proxies: [REJECT, DIRECT]
+  - name: "负载均衡"
+    type: load-balance
+    use: [my-provider]
+    url: http://cp.cloudflare.com/generate_204
+rule-providers:
+  reject:
+    type: http
+    behavior: domain
+    url: https://example.com/reject.yaml
+  cncidr:
+    type: http
+    behavior: ipcidr
+    url: https://example.com/cncidr.yaml
+  custom-srs:
+    type: http
+    behavior: domain
+    url: https://example.com/custom.srs
+rules:
+  - RULE-SET,reject,拦截
+  - RULE-SET,custom-srs,节点选择
+  - RULE-SET,cncidr,直连
+  - DOMAIN,ocsp.apple.com,DIRECT
+  - DOMAIN-SUFFIX,cn,直连
+  - DOMAIN-SUFFIX,taobao.com,直连
+  - DOMAIN-KEYWORD,google,节点选择
+  - DOMAIN-REGEX,(?i)^ad[0-9]+\.example\.com$,拦截
+  - GEOSITE,category-ads-all,拦截
+  - GEOSITE,geolocation-!cn,节点选择
+  - GEOIP,LAN,DIRECT
+  - GEOIP,CN,直连
+  - IP-CIDR,1.1.1.1/32,节点选择
+  - IP-CIDR6,2001:db8::/32,节点选择
+  - DST-PORT,80/443,节点选择
+  - DST-PORT,10000-20000,节点选择
+  - SRC-IP-CIDR,192.168.1.0/24,DIRECT
+  - PROCESS-NAME,ssh,DIRECT
+  - AND,((DOMAIN-SUFFIX,example.com),(DST-PORT,443)),节点选择
+  - NOT,((DOMAIN,blocked.example.com)),DIRECT
+  - IP-ASN,13335,DIRECT
+  - MATCH,节点选择

@@ -1,0 +1,14 @@
+{
+	"name": "Clash2SingBox · 配置转换器",
+	"short_name": "Clash2SingBox",
+	"description": "纯前端离线 Clash / mihomo YAML → sing-box JSON 转换器",
+	"lang": "zh-CN",
+	"start_url": ".",
+	"scope": ".",
+	"display": "standalone",
+	"background_color": "#f9f8f7",
+	"theme_color": "#2783de",
+	"icons": [
+		{ "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+	]
+}

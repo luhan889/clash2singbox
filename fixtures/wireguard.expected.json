@@ -1,0 +1,17 @@
+[
+  {
+    "type": "wireguard",
+    "tag": "WireGuard",
+    "address": ["172.16.0.2/32"],
+    "private_key": "qJ4uY0kOxT2mVbWc3NdEfGhIjKlMnOpQrStUvWxYz01=",
+    "peers": [
+      {
+        "address": "wg.example.com",
+        "port": 51820,
+        "public_key": "aB1cD2eF3gH4iJ5kL6mN7oP8qR9sT0uV1wX2yZ3aB4c=",
+        "allowed_ips": ["0.0.0.0/0", "::/0"]
+      }
+    ],
+    "mtu": 1408
+  }
+]

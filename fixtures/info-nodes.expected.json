@@ -1,0 +1,18 @@
+[
+  {
+    "type": "trojan",
+    "tag": "Panel：www.example.com",
+    "server": "real1.example.com",
+    "server_port": 443,
+    "password": "real-pass",
+    "tls": { "enabled": true }
+  },
+  {
+    "type": "trojan",
+    "tag": "大流量节点 01",
+    "server": "real2.example.com",
+    "server_port": 443,
+    "password": "real-pass",
+    "tls": { "enabled": true }
+  }
+]

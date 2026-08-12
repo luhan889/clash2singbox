@@ -1,0 +1,17 @@
+# SOCKS 与 HTTP 代理（改进清单 §3.11 / §3.12）
+proxies:
+  - name: "Socks5"
+    type: socks5
+    server: socks.example.com
+    port: 1080
+    username: socks-user
+    password: socks-pass
+    udp: true
+  - name: "HTTP-Proxy"
+    type: http
+    server: http.example.com
+    port: 8080
+    username: http-user
+    password: http-pass
+    tls: true
+    sni: http.example.com

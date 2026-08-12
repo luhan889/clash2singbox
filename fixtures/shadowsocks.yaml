@@ -1,0 +1,19 @@
+# Shadowsocks：2022 套件与 obfs 插件（改进清单 §3.7）
+proxies:
+  - name: "SS-2022"
+    type: ss
+    server: ss.example.com
+    port: 8388
+    cipher: 2022-blake3-aes-128-gcm
+    password: "1234567890abcdef1234567890abcdef"
+    udp: true
+  - name: "SS-Obfs"
+    type: ss
+    server: ss2.example.com
+    port: 443
+    cipher: aes-256-gcm
+    password: ss-pass
+    plugin: obfs
+    plugin-opts:
+      mode: http
+      host: bing.com

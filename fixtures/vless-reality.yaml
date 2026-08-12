@@ -1,0 +1,16 @@
+# VLESS + REALITY + XTLS Vision（改进清单 §3.2）
+proxies:
+  - name: "VLESS-Reality-Vision"
+    type: vless
+    server: reality.example.com
+    port: 443
+    uuid: 4a1b2c3d-4e5f-6789-abcd-ef0123456789
+    flow: xtls-rprx-vision
+    packet-encoding: xudp
+    udp: true
+    tls: true
+    servername: www.cloudflare.com
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: 2vNiVJ0M6nS0Xk9pYqZ3aBcDeFgHiJkLmNoPqRsTuVw
+      short-id: 0123abcd

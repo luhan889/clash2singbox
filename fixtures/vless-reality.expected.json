@@ -1,0 +1,21 @@
+[
+  {
+    "type": "vless",
+    "tag": "VLESS-Reality-Vision",
+    "server": "reality.example.com",
+    "server_port": 443,
+    "uuid": "4a1b2c3d-4e5f-6789-abcd-ef0123456789",
+    "flow": "xtls-rprx-vision",
+    "packet_encoding": "xudp",
+    "tls": {
+      "enabled": true,
+      "server_name": "www.cloudflare.com",
+      "utls": { "enabled": true, "fingerprint": "chrome" },
+      "reality": {
+        "enabled": true,
+        "public_key": "2vNiVJ0M6nS0Xk9pYqZ3aBcDeFgHiJkLmNoPqRsTuVw",
+        "short_id": "0123abcd"
+      }
+    }
+  }
+]

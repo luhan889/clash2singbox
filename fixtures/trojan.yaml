@@ -1,0 +1,14 @@
+# Trojan + TLS（改进清单 §3.6）
+proxies:
+  - name: "Trojan-TLS"
+    type: trojan
+    server: trojan.example.com
+    port: 443
+    password: trojan-pass
+    sni: trojan.example.com
+    alpn:
+      - h2
+      - http/1.1
+    client-fingerprint: firefox
+    skip-cert-verify: false
+    udp: true

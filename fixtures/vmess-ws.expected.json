@@ -1,0 +1,21 @@
+[
+  {
+    "type": "vmess",
+    "tag": "VMess-WS-TLS",
+    "server": "vmess.example.com",
+    "server_port": 443,
+    "uuid": "11112222-3333-4444-5555-666677778888",
+    "security": "auto",
+    "tls": {
+      "enabled": true,
+      "server_name": "vmess.example.com"
+    },
+    "transport": {
+      "type": "ws",
+      "path": "/ray",
+      "headers": { "Host": "vmess.example.com" },
+      "max_early_data": 2048,
+      "early_data_header_name": "Sec-WebSocket-Protocol"
+    }
+  }
+]

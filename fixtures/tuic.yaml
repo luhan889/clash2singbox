@@ -1,0 +1,14 @@
+# TUIC v5（改进清单 §3.9）
+proxies:
+  - name: "TUIC-v5"
+    type: tuic
+    server: tuic.example.com
+    port: 443
+    uuid: 99998888-7777-6666-5555-444433332222
+    password: tuic-pass
+    congestion-controller: bbr
+    udp-relay-mode: native
+    sni: tuic.example.com
+    alpn:
+      - h3
+    skip-cert-verify: false

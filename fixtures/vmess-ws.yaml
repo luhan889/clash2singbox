@@ -1,0 +1,20 @@
+# VMess + WebSocket + TLS（改进清单 §3.5）
+proxies:
+  - name: "VMess-WS-TLS"
+    type: vmess
+    server: vmess.example.com
+    port: 443
+    uuid: 11112222-3333-4444-5555-666677778888
+    alterId: 0
+    cipher: auto
+    udp: true
+    tls: true
+    servername: vmess.example.com
+    skip-cert-verify: false
+    network: ws
+    ws-opts:
+      path: "/ray"
+      headers:
+        Host: vmess.example.com
+      max-early-data: 2048
+      early-data-header-name: Sec-WebSocket-Protocol

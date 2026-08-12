@@ -1,0 +1,17 @@
+[
+  {
+    "type": "hysteria2",
+    "tag": "Hysteria2",
+    "server": "hy2.example.com",
+    "server_port": 443,
+    "up_mbps": 50,
+    "down_mbps": 200,
+    "password": "hy2-pass",
+    "obfs": { "type": "salamander", "password": "obfs-pass" },
+    "tls": {
+      "enabled": true,
+      "server_name": "hy2.example.com",
+      "alpn": ["h3"]
+    }
+  }
+]

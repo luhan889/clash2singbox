@@ -1,0 +1,17 @@
+[
+  {
+    "type": "tuic",
+    "tag": "TUIC-v5",
+    "server": "tuic.example.com",
+    "server_port": 443,
+    "uuid": "99998888-7777-6666-5555-444433332222",
+    "password": "tuic-pass",
+    "congestion_control": "bbr",
+    "udp_relay_mode": "native",
+    "tls": {
+      "enabled": true,
+      "server_name": "tuic.example.com",
+      "alpn": ["h3"]
+    }
+  }
+]

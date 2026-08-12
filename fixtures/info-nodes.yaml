@@ -1,0 +1,32 @@
+# 订阅信息伪节点过滤 + 原名保留（改进清单 §5 / §6）
+proxies:
+  - name: "剩余流量：121.03 GB"
+    type: trojan
+    server: info1.example.com
+    port: 443
+    password: x
+  - name: "套餐到期：2030-03-08"
+    type: trojan
+    server: info2.example.com
+    port: 443
+    password: x
+  - name: "距离下次重置剩余：22 天"
+    type: trojan
+    server: info3.example.com
+    port: 443
+    password: x
+  - name: "官网：www.example.com"
+    type: trojan
+    server: info4.example.com
+    port: 443
+    password: x
+  - name: "Panel：www.example.com"
+    type: trojan
+    server: real1.example.com
+    port: 443
+    password: real-pass
+  - name: "大流量节点 01"
+    type: trojan
+    server: real2.example.com
+    port: 443
+    password: real-pass

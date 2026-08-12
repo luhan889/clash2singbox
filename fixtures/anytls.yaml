@@ -1,0 +1,13 @@
+# AnyTLS 完整字段映射（改进清单 §3.1）
+proxies:
+  - name: "AnyTLS-Node"
+    type: anytls
+    server: any.example.com
+    port: 8443
+    password: "anytls-pass"
+    sni: any.example.com
+    alpn:
+      - h2
+      - http/1.1
+    client-fingerprint: chrome
+    skip-cert-verify: true

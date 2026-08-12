@@ -1,0 +1,23 @@
+[
+  {
+    "type": "socks",
+    "tag": "Socks5",
+    "server": "socks.example.com",
+    "server_port": 1080,
+    "version": "5",
+    "username": "socks-user",
+    "password": "socks-pass"
+  },
+  {
+    "type": "http",
+    "tag": "HTTP-Proxy",
+    "server": "http.example.com",
+    "server_port": 8080,
+    "username": "http-user",
+    "password": "http-pass",
+    "tls": {
+      "enabled": true,
+      "server_name": "http.example.com"
+    }
+  }
+]

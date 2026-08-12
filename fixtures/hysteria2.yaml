@@ -1,0 +1,15 @@
+# Hysteria2 + salamander 混淆（改进清单 §3.8）
+proxies:
+  - name: "Hysteria2"
+    type: hysteria2
+    server: hy2.example.com
+    port: 443
+    password: hy2-pass
+    up: "50 Mbps"
+    down: "200 Mbps"
+    obfs: salamander
+    obfs-password: obfs-pass
+    sni: hy2.example.com
+    alpn:
+      - h3
+    skip-cert-verify: false

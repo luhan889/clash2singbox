@@ -1,0 +1,15 @@
+[
+  {
+    "type": "trojan",
+    "tag": "Trojan-TLS",
+    "server": "trojan.example.com",
+    "server_port": 443,
+    "password": "trojan-pass",
+    "tls": {
+      "enabled": true,
+      "server_name": "trojan.example.com",
+      "alpn": ["h2", "http/1.1"],
+      "utls": { "enabled": true, "fingerprint": "firefox" }
+    }
+  }
+]

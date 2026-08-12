@@ -1,0 +1,11 @@
+# WireGuard（改进清单 §3.10）：1.12+ 归属 endpoints
+proxies:
+  - name: "WireGuard"
+    type: wireguard
+    server: wg.example.com
+    port: 51820
+    ip: 172.16.0.2/32
+    private-key: qJ4uY0kOxT2mVbWc3NdEfGhIjKlMnOpQrStUvWxYz01=
+    public-key: aB1cD2eF3gH4iJ5kL6mN7oP8qR9sT0uV1wX2yZ3aB4c=
+    mtu: 1408
+    udp: true
