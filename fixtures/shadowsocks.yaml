@@ -5,7 +5,7 @@ proxies:
     server: ss.example.com
     port: 8388
     cipher: 2022-blake3-aes-128-gcm
-    password: "1234567890abcdef1234567890abcdef"
+    password: "MDEyMzQ1Njc4OWFiY2RlZg=="
     udp: true
   - name: "SS-Obfs"
     type: ss

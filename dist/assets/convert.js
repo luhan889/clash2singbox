@@ -1650,7 +1650,7 @@
 				delete tun.strict_route
 				diag.info('Clash 配置关闭了 auto-route，已同步关闭 sing-box 自动路由')
 			}
-			tun.endpoint_independent_nat = false
+			if (!ctx.caps.schema) tun.endpoint_independent_nat = false
 			inbounds.push(tun)
 		}
 		var authList = strList(pick(clash, 'authentication')) || []

@@ -39,7 +39,7 @@ proxies:
     server: ss.example.com
     port: 8388
     cipher: 2022-blake3-aes-128-gcm
-    password: "psk123="
+    password: "MDEyMzQ1Njc4OWFiY2RlZg=="
     udp: true
     udp-over-tcp: true
   - name: "SS-Obfs"
@@ -69,7 +69,7 @@ proxies:
     servername: www.microsoft.com
     client-fingerprint: chrome
     reality-opts:
-      public-key: PUBKEY_TEST_ONLY
+      public-key: 2vNiVJ0M6nS0Xk9pYqZ3aBcDeFgHiJkLmNoPqRsTuVw
       short-id: 6ba85179e30d4fc2
   - name: "VLESS-gRPC"
     type: vless

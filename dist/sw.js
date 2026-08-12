@@ -1,6 +1,6 @@
 /*! Clash2SingBox Service Worker — 应用壳缓存，离线可用 */
 /* BUILD 由 build.mjs 在构建时改写为「版本号-内容哈希」，保证每次发布都启用新缓存 */
-var BUILD = '1.3.6-30395fcd3f'
+var BUILD = '1.3.6-1110732879'
 var CACHE = 'clash2singbox-' + BUILD
 var SHELL = [
 	'./',
