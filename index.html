@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Clash2SingBox · Clash 配置转 sing-box 配置</title>
+<meta name="description" content="纯前端离线 Clash / mihomo YAML → sing-box JSON 转换器，兼容 SFA、SFI、SFM、sing-box 桌面版与 GUI.for.SingBox。配置不上传，全部在本地完成。">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="drop-veil" id="drop" hidden><div class="drop-card">松开鼠标即可载入 YAML 配置</div></div>
+
+<header class="bar">
+	<div class="brand">
+		<svg class="logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h7.5M4 12h5M4 17h9"/><path d="M15 5l4.5 7-4.5 7"/></svg>
+		<h1>Clash<span>2</span>SingBox</h1>
+		<span class="ver" id="ver">v1.3.5</span>
+	</div>
+	<div class="bar-mid">
+		<div class="seg" id="modeSeg" role="radiogroup" aria-label="输出模式">
+			<button class="seg-btn" type="button" role="radio" data-mode="nodes" aria-checked="false">节点 JSON</button>
+			<button class="seg-btn is-on" type="button" role="radio" data-mode="full" aria-checked="true">完整配置</button>
+		</div>
+		<input type="hidden" id="opt-mode" data-opt="mode" value="full">
+		<label class="field compact"><span>目标内核</span>
+			<select id="opt-target" data-opt="target">
+				<option value="modern">sing-box 1.12 – 1.14.x（推荐）</option>
+				<option value="legacy">sing-box 1.11 旧版兼容</option>
+			</select>
+		</label>
+		<label class="field compact"><span>客户端</span>
+			<select id="opt-preset" data-opt="preset">
+				<option value="universal">通用</option>
+				<option value="android">SFA・Android</option>
+				<option value="apple">SFI / SFM・iOS 与 macOS</option>
+				<option value="desktop">sing-box 桌面版</option>
+				<option value="gui">GUI.for.SingBox</option>
+			</select>
+		</label>
+	</div>
+	<div class="bar-end">
+		<button class="btn ghost" id="railToggle" type="button" aria-controls="rail" aria-expanded="true" title="显示 / 收起转换选项">⚙ 设置</button>
+		<button class="icon-btn" id="theme" type="button" title="切换主题（Ctrl/⌘ + D）" aria-label="切换主题">
+			<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v2m0 14v2m-7-9H3m18 0h-2M6.3 6.3L4.9 4.9m14.2 1.4l1.4-1.4M6.3 17.7l-1.4 1.4m14.2-1.4l1.4 1.4"/><circle cx="12" cy="12" r="4"/></svg>
+		</button>
+		<button class="btn ghost" id="copy" type="button">复制</button>
+		<button class="btn primary" id="download" type="button">下载 config.json</button>
+	</div>
+</header>
+
+<div class="rail-veil" id="railVeil" hidden></div>
+
+<main class="shell" id="shell">
+	<aside class="rail" id="rail" aria-label="转换选项">
+		<div class="rail-head">
+			<h2>转换选项</h2>
+			<div class="rail-head-tools">
+				<button class="btn tiny ghost" id="reset" type="button">恢复默认</button>
+				<button class="btn tiny ghost only-mobile" id="railClose" type="button">完成</button>
+			</div>
+		</div>
+		<div class="rail-body" id="railBody">
+		<details class="group" open>
+			<summary>节点与输出</summary>
+			<label class="row switch"><input type="checkbox" id="opt-filterInfo" data-opt="filterInfo"><span>过滤订阅信息节点</span></label>
+			<label class="row switch"><input type="checkbox" id="opt-keepName" data-opt="keepName"><span>保留原节点名称</span></label>
+			<label class="row switch"><input type="checkbox" id="opt-keepFp" data-opt="keepFp"><span>保留 TLS 指纹（uTLS）</span></label>
+			<label class="row switch"><input type="checkbox" id="opt-flags" data-opt="flags"><span>自动补全国家/地区旗帜</span></label>
+			<label class="field"><span>输出风格</span>
+				<select id="opt-style" data-opt="style">
+					<option value="full">完整（保留全部字段）</option>
+					<option value="minimal">Minimal（省略默认值）</option>
+				</select>
+			</label>
+			<label class="field" data-nodes="1"><span>节点 JSON 形态</span>
+				<select id="opt-wrap" data-opt="wrap">
+					<option value="auto">自动（跟随客户端）</option>
+					<option value="array">数组 [ … ]（通用 / 自行拼装）</option>
+					<option value="outbounds">{ "outbounds": [ … ] }（GUI for SingBox 订阅）</option>
+				</select>
+			</label>
+			<label class="row switch"><input type="checkbox" id="opt-pretty" data-opt="pretty"><span>格式化输出</span></label>
+		</details>
+		<details class="group" open data-full="1">
+			<summary>入口</summary>
+			<label class="row switch"><input type="checkbox" id="opt-tun" data-opt="tun"><span>TUN 透明代理</span></label>
+			<label class="field"><span>TUN 栈</span>
+				<select id="opt-tunStack" data-opt="tunStack">
+					<option value="auto">自动（跟随客户端）</option>
+					<option value="mixed">mixed</option>
+					<option value="system">system</option>
+					<option value="gvisor">gvisor</option>
+				</select>
+			</label>
+			<label class="row switch"><input type="checkbox" id="opt-mixed" data-opt="mixed"><span>Mixed 代理端口</span></label>
+			<label class="field"><span>端口（空 = 跟随源配置）</span><input type="number" id="opt-mixedPort" data-opt="mixedPort" min="1" max="65535" placeholder="7890"></label>
+			<label class="row switch"><input type="checkbox" id="opt-allowLan" data-opt="allowLan"><span>允许局域网连接</span></label>
+		</details>
+		<details class="group" open data-full="1">
+			<summary>DNS</summary>
+			<label class="row switch"><input type="checkbox" id="opt-fakeip" data-opt="fakeip"><span>FakeIP 加速</span></label>
+			<label class="row switch"><input type="checkbox" id="opt-ipv6" data-opt="ipv6"><span>开启 IPv6</span></label>
+			<label class="field"><span>国内 DNS</span><input type="text" id="opt-dnsDirect" data-opt="dnsDirect" placeholder="空 = 跟随源配置 nameserver" spellcheck="false"></label>
+			<label class="field"><span>国外 DNS</span><input type="text" id="opt-dnsProxy" data-opt="dnsProxy" placeholder="空 = 跟随源配置 fallback" spellcheck="false"></label>
+			<label class="row switch"><input type="checkbox" id="opt-dnsFollowRoute" data-opt="dnsFollowRoute"><span>DNS 跟随直连规则集</span></label>
+		</details>
+		<details class="group" open data-full="1">
+			<summary>路由</summary>
+			<label class="row switch"><input type="checkbox" id="opt-sniff" data-opt="sniff"><span>域名嗅探</span></label>
+			<label class="row switch"><input type="checkbox" id="opt-lanDirect" data-opt="lanDirect"><span>内网地址直连</span></label>
+			<label class="row switch"><input type="checkbox" id="opt-resolveIpRules" data-opt="resolveIpRules"><span>IP 规则前插入 resolve</span></label>
+			<label class="row switch"><input type="checkbox" id="opt-mergeRules" data-opt="mergeRules"><span>合并同类规则</span></label>
+			<label class="row switch"><input type="checkbox" id="opt-ruleSetGuess" data-opt="ruleSetGuess"><span>推断 RULE-SET 规则集</span></label>
+			<label class="field"><span>规则集源</span>
+				<select id="opt-geoSource" data-opt="geoSource">
+					<option value="jsdelivr">jsDelivr CDN（MetaCubeX）</option>
+					<option value="github">GitHub 直连（MetaCubeX）</option>
+					<option value="sagernet">SagerNet 官方</option>
+					<option value="custom">自定义模板</option>
+				</select>
+			</label>
+			<label class="field" id="tplField" hidden><span>模板（{kind} / {name}）</span><input type="text" id="opt-geoTemplate" data-opt="geoTemplate" spellcheck="false" placeholder="https://example.com/{kind}/{name}.srs"></label>
+			<label class="field"><span>规则集下载方式</span>
+				<select id="opt-geoDetour" data-opt="geoDetour">
+					<option value="direct">直连下载</option>
+					<option value="proxy">经代理下载</option>
+				</select>
+			</label>
+		</details>
+		<details class="group" data-full="1">
+			<summary>其它</summary>
+			<label class="row switch"><input type="checkbox" id="opt-clashApi" data-opt="clashApi"><span>Clash 面板 API</span></label>
+			<label class="field"><span>面板端口</span><input type="number" id="opt-clashApiPort" data-opt="clashApiPort" min="1" max="65535" placeholder="9090"></label>
+			<label class="row switch"><input type="checkbox" id="opt-cacheFile" data-opt="cacheFile"><span>缓存文件</span></label>
+			<label class="field"><span>日志级别</span>
+				<select id="opt-logLevel" data-opt="logLevel">
+					<option value="info">info</option>
+					<option value="warn">warn</option>
+					<option value="error">error</option>
+					<option value="debug">debug</option>
+				</select>
+			</label>
+		</details>
+		<p class="rail-foot">所有转换均在本地浏览器完成，配置不会上传。</p>
+		</div>
+	</aside>
+
+	<div class="split" id="split1" role="separator" aria-orientation="vertical" tabindex="0" aria-label="拖动调节侧栏宽度" title="拖动调节宽度（方向键微调・双击复位）"></div>
+
+	<section class="pane" id="paneIn" aria-label="Clash 配置输入">
+		<div class="pane-head">
+			<h2>Clash / mihomo YAML</h2>
+			<div class="pane-tools">
+				<button class="btn tiny" id="pick" type="button">选择文件</button>
+				<button class="btn tiny ghost" id="sample" type="button">示例</button>
+				<button class="btn tiny ghost" id="clear" type="button">清空</button>
+				<input type="file" id="file" accept=".yaml,.yml,.txt,.conf" hidden>
+			</div>
+		</div>
+		<textarea id="yaml" spellcheck="false" autocomplete="off" placeholder="粘贴 Clash / mihomo 配置，或拖入 .yaml 文件……&#10;&#10;快捷键：Ctrl/⌘ + Enter 转换・Ctrl/⌘ + S 下载・Ctrl/⌘ + K 复制・Ctrl/⌘ + O 打开文件・Ctrl/⌘ + D 主题"></textarea>
+		<div class="pane-foot"><span id="inputMeta">等待输入</span><span class="muted">自动转换已开启</span></div>
+	</section>
+
+	<div class="split" id="split2" role="separator" aria-orientation="vertical" tabindex="0" aria-label="拖动调节输入与输出区宽度" title="拖动调节宽度（方向键微调・双击复位）"></div>
+
+	<section class="pane" id="paneOut" aria-label="sing-box 配置输出">
+		<div class="pane-head">
+			<h2 id="outTitle">sing-box config.json</h2>
+			<div class="pane-tools">
+				<span class="badge" id="status" role="status" aria-live="polite">就绪</span>
+				<button class="btn tiny ghost" id="issuesToggle" type="button" aria-expanded="false">诊断 <b id="issueCount">0</b></button>
+			</div>
+		</div>
+		<div class="viewport" id="viewport" tabindex="0">
+			<div class="spacer" id="spacer"></div>
+			<pre class="code" id="code" aria-live="off"></pre>
+			<div class="empty" id="empty">
+				<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16M4 12h10M4 19h7"/></svg>
+				<p>输入 Clash 配置后，这里实时展示 sing-box 配置</p>
+			</div>
+		</div>
+		<div class="stats" id="stats">
+			<div class="stat"><b id="statNodes">0</b><span>节点</span></div>
+			<div class="stat"><b id="statFiltered">0</b><span>已过滤</span></div>
+			<div class="stat" data-full="1"><b id="statGroups">0</b><span>分组</span></div>
+			<div class="stat" data-full="1"><b id="statRules">0</b><span>规则</span></div>
+			<div class="stat" data-full="1"><b id="statSets">0</b><span>规则集</span></div>
+			<div class="stat" data-full="1"><b id="statOut">0</b><span>出站</span></div>
+			<div class="stat" data-full="1"><b id="statDns">0</b><span>DNS</span></div>
+			<div class="stat"><b id="statSkipped">0</b><span>跳过</span></div>
+			<div class="stat"><b id="statMs">0</b><span>耗时 ms</span></div>
+			<div class="stat"><b id="statSize">0</b><span>体积 KB</span></div>
+			<span class="smeta" id="statMeta">等待输入</span>
+			<div class="protos" id="protos"></div>
+		</div>
+		<div class="drawer" id="issues" hidden></div>
+	</section>
+</main>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script src="assets/yaml.js"></script>
+<script src="assets/convert.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
