@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light dark">
 <title>Clash2SingBox · Clash 配置转 sing-box 配置</title>
 <meta name="description" content="纯前端离线 Clash / mihomo YAML → sing-box JSON 转换器，兼容 SFA、SFI、SFM、sing-box 桌面版与 GUI.for.SingBox。配置不上传，全部在本地完成。">
-<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+Cgk8cmVjdCB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHJ4PSI3IiBmaWxsPSIjMjc4M0RFIi8+Cgk8ZyBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgoJCTxwYXRoIGQ9Ik03IDEwaDhNNyAxNmg1LjVNNyAyMmg5Ii8+CgkJPHBhdGggZD0iTTIwIDlsNC41IDdMMjAgMjMiLz4KCTwvZz4KPC9zdmc+Cg==" type="image/svg+xml">
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+Cgk8ZGVmcz4KCQk8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iNCIgeTE9IjMiIHgyPSIyOCIgeTI9IjI5IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CgkJCTxzdG9wIHN0b3AtY29sb3I9IiMyOTk0RjIiLz4KCQkJPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMTI2NkIwIi8+CgkJPC9saW5lYXJHcmFkaWVudD4KCTwvZGVmcz4KCTxyZWN0IHg9IjEiIHk9IjEiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgcng9IjgiIGZpbGw9InVybCgjYmcpIi8+Cgk8ZyBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CgkJPHBhdGggZD0iTTE3LjUgNi41aDdhMiAyIDAgMCAxIDIgMnYxNWEyIDIgMCAwIDEtMiAyaC03YTIgMiAwIDAgMS0yLTJ2LTE1YTIgMiAwIDAgMSAyLTJaIiBzdHJva2Utd2lkdGg9IjEuOCIgb3BhY2l0eT0iLjk2Ii8+CgkJPHBhdGggZD0iTTQuNSAxMGg1LjVNNC41IDE2aDcuNU00LjUgMjJoNS41TTExLjUgMTEuNSAxNiAxNmwtNC41IDQuNSIgc3Ryb2tlLXdpZHRoPSIyIi8+CgkJPHBhdGggZD0iTTIxIDExdjEwTTE4LjUgMTMuNSAyMSAxMWwyLjUgMi41TTE4LjUgMTguNSAyMSAyMWwyLjUtMi41IiBzdHJva2Utd2lkdGg9IjEuNTUiIG9wYWNpdHk9Ii45Ii8+Cgk8L2c+Cjwvc3ZnPgo=" type="image/svg+xml">
 
 <style>
 /*! Clash2SingBox — 样式表 */
@@ -18,14 +18,19 @@
 	--line: #e6e5e3;
 	--line-2: #d9d7d3;
 	--text: #2c2c2b;
-	--text-2: #7d7a75;
-	--text-3: #a3a09b;
-	--accent: #2783de;
-	--accent-2: #1c6dbd;
-	--accent-soft: rgba(39, 131, 222, .1);
+	--text-2: #6d6a65;
+	--text-3: #77736e;
+	--accent: #156db7;
+	--accent-2: #0f5a98;
+	--accent-ink: #fff;
+	--accent-soft: rgba(21, 109, 183, .11);
 	--ok: #2f8a5b;
 	--warn: #b8860b;
+	--warn-ink: #2e2408;
 	--err: #d0453f;
+	--err-ink: #fff;
+	--info-bg: #77736e;
+	--info-ink: #fff;
 	--r: 8px;
 	--r-sm: 6px;
 	--mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
@@ -41,13 +46,18 @@
 	--line-2: #474745;
 	--text: #ededec;
 	--text-2: #9b9a97;
-	--text-3: #797874;
+	--text-3: #8c8a86;
 	--accent: #5e9fe8;
 	--accent-2: #7cb3ee;
+	--accent-ink: #102337;
 	--accent-soft: rgba(94, 159, 232, .14);
 	--ok: #4fa97a;
 	--warn: #d4a13c;
+	--warn-ink: #241a02;
 	--err: #e2645e;
+	--err-ink: #2a0808;
+	--info-bg: #62615e;
+	--info-ink: #fff;
 }
 * { box-sizing: border-box }
 html, body { height: 100% }
@@ -69,22 +79,28 @@ svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width:
 
 /* ---------- 顶部 ---------- */
 .bar {
-	display: flex;
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	grid-template-areas: "brand controls actions";
 	align-items: center;
-	gap: 16px;
+	column-gap: 16px;
 	height: 56px;
 	flex: 0 0 auto;
 	padding: 0 16px;
 	background: var(--surface);
 	border-bottom: 1px solid var(--line);
 }
-.brand { display: flex; align-items: center; gap: 8px; min-width: 0 }
-.brand .logo { width: 22px; height: 22px; color: var(--accent) }
+.brand { grid-area: brand; display: flex; align-items: center; gap: 9px; min-width: 0 }
+.brand .logo { width: 26px; height: 26px; color: var(--accent); overflow: visible }
+.brand .logo-box { fill: var(--accent-soft); stroke: currentColor; stroke-width: 1.8 }
+.brand .logo-flow, .brand .logo-core { fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round }
+.brand .logo-core { stroke-width: 1.65 }
 .brand h1 { font-size: 15px; letter-spacing: -.01em; white-space: nowrap }
 .brand h1 span { color: var(--accent) }
 .ver { font: 500 11px/1 var(--mono); color: var(--text-2); background: var(--surface-2); border: 1px solid var(--line); padding: 4px 6px; border-radius: 999px }
-.bar-mid { display: flex; align-items: center; gap: 10px; margin-left: 8px; min-width: 0; flex: 1 1 auto; overflow: hidden }
-.bar-end { display: flex; align-items: center; gap: 8px; margin-left: auto }
+.bar-mid { grid-area: controls; display: flex; align-items: center; gap: 10px; min-width: 0 }
+.toolbar-config { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1 1 auto }
+.bar-end { grid-area: actions; display: flex; align-items: center; justify-self: end; gap: 8px }
 .seg { display: inline-flex; flex: 0 0 auto; gap: 2px; padding: 2px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface-2) }
 .seg-btn { height: 26px; padding: 0 11px; border: 0; border-radius: 7px; background: transparent; color: var(--text-2); font: inherit; font-size: 12.5px; font-weight: 500; letter-spacing: .01em; cursor: pointer; white-space: nowrap; transition: background .16s ease, color .16s ease }
 .seg-btn:hover { color: var(--text) }
@@ -109,7 +125,7 @@ svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width:
 }
 .btn:hover { background: var(--surface-2) }
 .btn:active { transform: scale(.975) }
-.btn.primary { background: var(--accent); border-color: transparent; color: #fff }
+.btn.primary { background: var(--accent); border-color: transparent; color: var(--accent-ink) }
 .btn.primary:hover { background: var(--accent-2) }
 .btn.ghost { border-color: var(--line); background: transparent; color: var(--text-2) }
 .btn.ghost:hover { color: var(--text); background: var(--surface-2) }
@@ -128,8 +144,11 @@ svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width:
 .icon-btn:hover { background: var(--surface-2); color: var(--text) }
 .field { display: flex; flex-direction: column; gap: 5px; min-width: 0 }
 .field > span { font-size: 11.5px; color: var(--text-2) }
-.field.compact { flex-direction: row; align-items: center; gap: 8px }
-.field.compact > span { white-space: nowrap }
+.field.compact { flex-direction: row; align-items: center; gap: 8px; min-width: 0 }
+.field.compact > span { flex: 0 0 auto; white-space: nowrap }
+.field.compact select { flex: 1 1 auto; min-width: 0 }
+.toolbar-config .field.compact:first-child { flex: 1.35 1 0 }
+.toolbar-config .field.compact:last-child { flex: 1 1 0 }
 select, input[type="text"], input[type="number"] {
 	height: 32px;
 	max-width: 100%;
@@ -154,7 +173,7 @@ input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px v
 input::placeholder { color: var(--text-3) }
 
 /* ---------- 主体布局 ---------- */
-.shell { flex: 1 1 auto; display: grid; grid-template-columns: 270px minmax(0, 1fr) minmax(0, 1.1fr); min-height: 0 }
+.shell { flex: 1 1 auto; display: grid; min-height: 0 }
 .rail { border-right: 1px solid var(--line); background: var(--surface); overflow: hidden; display: flex; flex-direction: column; min-height: 0 }
 /* 列向 flex 容器默认会压缩子项，会把设置卡片压扁并裁掉内容，必须禁止 */
 .rail > * { flex: 0 0 auto }
@@ -165,10 +184,6 @@ input::placeholder { color: var(--text-3) }
 .rail-body::-webkit-scrollbar-track, .viewport::-webkit-scrollbar-track, .drawer::-webkit-scrollbar-track { background: transparent }
 .rail-body::-webkit-scrollbar-thumb, .viewport::-webkit-scrollbar-thumb, .drawer::-webkit-scrollbar-thumb { background: var(--line-2); border: 3px solid transparent; background-clip: content-box; border-radius: 999px }
 .rail-body::-webkit-scrollbar-thumb:hover, .viewport::-webkit-scrollbar-thumb:hover, .drawer::-webkit-scrollbar-thumb:hover { background: var(--text-3); background-clip: content-box }
-@media (min-width: 901px) {
-	.shell.rail-off { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) }
-	.shell.rail-off > .rail { display: none }
-}
 .rail-head { position: relative; z-index: 3; flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0; padding: 13px 14px 11px; background: var(--surface); border-bottom: 1px solid var(--line); box-shadow: 0 8px 14px -14px rgba(15, 15, 15, .5) }
 .rail-head h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-2) }
 .group { border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); overflow: hidden }
@@ -224,7 +239,10 @@ input[type="checkbox"]:checked::after { transform: translateX(14px) }
 .pane-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; height: 44px; flex: 0 0 auto; padding: 0 14px; border-bottom: 1px solid var(--line); background: var(--surface) }
 .pane-head h2 { font-size: 12.5px; font-weight: 600; color: var(--text-2); letter-spacing: .01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
 .pane-tools { display: flex; align-items: center; gap: 6px; flex: 0 0 auto }
-.pane-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; height: 30px; flex: 0 0 auto; padding: 0 14px; font: 11.5px/1 var(--mono); color: var(--text-3); border-top: 1px solid var(--line) }
+.pane-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; height: 34px; flex: 0 0 auto; padding: 0 14px; font: 11.5px/1 var(--mono); color: var(--text-3); border-top: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 94%, var(--surface-2)); box-shadow: 0 -8px 18px -20px rgba(15, 15, 15, .6) }
+.pane-foot #inputMeta { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.live-state { display: inline-flex; align-items: center; gap: 6px; flex: 0 0 auto; height: 22px; padding: 0 8px; border-radius: 999px; color: var(--text-2); background: var(--surface-2); border: 1px solid var(--line) }
+.live-state i { width: 6px; height: 6px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 12%, transparent) }
 .muted { color: var(--text-3) }
 #yaml { flex: 1 1 auto; width: 100%; min-height: 0; padding: 14px 16px; border: 0; resize: none; font: 12.5px/1.65 var(--mono); color: var(--text); background: transparent; tab-size: 2 }
 #yaml:focus { outline: none }
@@ -263,13 +281,18 @@ input[type="checkbox"]:checked::after { transform: translateX(14px) }
 .badge.warn { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 34%, transparent); background: color-mix(in srgb, var(--warn) 12%, transparent) }
 .badge.err { color: var(--err); border-color: color-mix(in srgb, var(--err) 32%, transparent); background: color-mix(in srgb, var(--err) 10%, transparent) }
 .badge.busy { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 30%, transparent); background: var(--accent-soft) }
-.stats { flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; column-gap: 18px; row-gap: 8px; padding: 9px 14px; border-top: 1px solid var(--line); background: var(--surface) }
+.stats { container-type: inline-size; flex: 0 0 auto; display: grid; gap: 8px; padding: 8px 12px 9px; border-top: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 96%, var(--surface-2)); box-shadow: 0 -12px 26px -28px rgba(15, 15, 15, .8) }
 .stats::-webkit-scrollbar { display: none }
-.stat { display: flex; flex-direction: column; gap: 1px; min-width: 44px }
-.stat b { font: 600 14px/1.2 var(--mono); font-variant-numeric: tabular-nums; letter-spacing: -.01em }
-.stat span { font-size: 10.5px; color: var(--text-3); white-space: nowrap }
-.protos { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-left: auto; max-width: 100%; padding-left: 12px }
-.proto { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line-2); transition: border-color .14s var(--ease), background .14s var(--ease) }
+.stats-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px }
+@container (min-width: 680px) { .stats:not(.is-nodes) .stats-grid { grid-template-columns: repeat(10, minmax(0, 1fr)) } }
+.stat { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding: 5px 6px; border-radius: 8px; transition: background .14s var(--ease) }
+.stat:hover { background: var(--surface-2) }
+.stat b { font: 650 14px/1.15 var(--mono); font-variant-numeric: tabular-nums; letter-spacing: -.01em }
+.stat span { font-size: 10.5px; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.stats-info { display: flex; align-items: center; gap: 8px; min-width: 0; padding-top: 7px; border-top: 1px solid var(--line) }
+.protos { display: flex; flex: 0 1 auto; align-items: center; gap: 6px; max-width: 60%; margin-left: auto; overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-width: none }
+.protos::-webkit-scrollbar { display: none }
+.proto { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line-2); transition: border-color .14s var(--ease), background .14s var(--ease) }
 .proto:hover { border-color: var(--accent) }
 .proto i { flex: 0 0 auto; width: 6px; height: 6px; border-radius: 50%; background: var(--accent) }
 .proto span { font: 500 11px/1 var(--mono); color: var(--text-2); white-space: nowrap }
@@ -290,10 +313,10 @@ input[type="checkbox"]:checked::after { transform: translateX(14px) }
 @keyframes rise { from { transform: translateY(10px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
 .issue { display: flex; gap: 9px; padding: 8px 0; border-bottom: 1px solid var(--line) }
 .issue:last-child { border-bottom: 0 }
-.issue .lvl { flex: 0 0 auto; margin-top: 1px; width: 42px; text-align: center; font: 500 10.5px/16px var(--sans); border-radius: 4px; color: #fff }
-.issue.error .lvl { background: var(--err) }
-.issue.warn .lvl { background: var(--warn) }
-.issue.info .lvl { background: var(--text-3) }
+.issue .lvl { flex: 0 0 auto; margin-top: 1px; width: 42px; text-align: center; font: 500 10.5px/16px var(--sans); border-radius: 4px }
+.issue.error .lvl { background: var(--err); color: var(--err-ink) }
+.issue.warn .lvl { background: var(--warn); color: var(--warn-ink) }
+.issue.info .lvl { background: var(--info-bg); color: var(--info-ink) }
 .issue .body { min-width: 0 }
 .issue .t { font-size: 12.5px; line-height: 1.5 }
 .issue .s { margin-top: 3px; font: 11px/1.5 var(--mono); color: var(--text-3); word-break: break-all }
@@ -307,17 +330,30 @@ input[type="checkbox"]:checked::after { transform: translateX(14px) }
 [hidden] { display: none !important }
 
 /* ---------- 响应式 ---------- */
-@media (max-width: 1100px) {
-	.shell { grid-template-columns: 240px minmax(0, 1fr) minmax(0, 1fr) }
+@media (max-width: 1320px) {
 	.bar-mid .field.compact > span { display: none }
+}
+@media (max-width: 1180px) {
+	.bar {
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		grid-template-areas:
+			"brand . actions"
+			"controls controls controls";
+		height: auto;
+		row-gap: 8px;
+		padding: 10px 12px;
+	}
+	.bar-mid { display: grid; grid-template-columns: auto minmax(0, 1fr); width: 100% }
+}
+@media (max-width: 1100px) {
+	.toolbar-config { gap: 6px }
 }
 @media (max-width: 900px) {
 	body { overflow: auto }
-	.bar { height: auto; flex-wrap: wrap; gap: 10px; padding: 10px 12px; position: sticky; top: 0; z-index: 20 }
-	.bar-mid { order: 3; width: 100%; flex-wrap: wrap; margin-left: 0 }
-	.bar-mid .field.compact { flex: 1 1 46%; min-width: 0 }
+	body.rail-modal { overflow: hidden }
+	.bar { position: sticky; top: 0; z-index: 20 }
+	.toolbar-config { width: 100% }
 	.bar-mid .field.compact select { width: 100% }
-	.bar-end { gap: 6px }
 	.shell { display: flex; flex-direction: column; min-height: 0 }
 	.only-mobile { display: inline-flex }
 	.rail-veil { display: block }
@@ -325,10 +361,11 @@ input[type="checkbox"]:checked::after { transform: translateX(14px) }
 		position: fixed; left: 0; right: 0; bottom: 0; top: auto; z-index: 40;
 		max-height: 78vh; border-right: 0; border-top: 1px solid var(--line);
 		border-radius: 16px 16px 0 0; box-shadow: 0 -18px 44px rgba(15, 15, 15, .2);
-		transform: translateY(101%); transition: transform .26s cubic-bezier(.32, .72, 0, 1);
+		visibility: hidden; transform: translateY(101%);
+		transition: transform .26s cubic-bezier(.32, .72, 0, 1), visibility 0s linear .26s;
 		overscroll-behavior: contain;
 	}
-	.rail.open { transform: none }
+	.rail.open { visibility: visible; transform: none; transition-delay: 0s }
 	.rail-head { position: relative; z-index: 3; margin: 0; padding: 20px 14px 12px; border-radius: 16px 16px 0 0 }
 	.rail-head::before { content: ''; position: absolute; left: 50%; top: 8px; transform: translateX(-50%); width: 38px; height: 4px; border-radius: 999px; background: var(--line-2) }
 	.rail-body { padding: 10px 14px calc(18px + env(safe-area-inset-bottom)) }
@@ -337,35 +374,55 @@ input[type="checkbox"]:checked::after { transform: translateX(14px) }
 	.btn, .icon-btn { min-height: 36px }
 	.row.switch { padding: 10px 12px }
 }
-@media (max-width: 560px) {
-	.bar { padding: 10px 10px }
-	.bar-mid { gap: 8px }
-	.bar-mid .field.compact { flex: 1 1 100% }
-	.bar-end { flex-wrap: wrap; justify-content: flex-end; gap: 6px }
+@media (max-width: 640px) {
+	.bar {
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-areas:
+			"brand"
+			"actions"
+			"controls";
+		row-gap: 8px;
+		padding: 10px;
+	}
+	.bar-end { gap: 4px }
+	.bar-end .btn { padding-left: 11px; padding-right: 11px }
+	.bar-mid { grid-template-columns: minmax(0, 1fr); gap: 8px }
+	.toolbar-config { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 6px }
+	.bar-mid .toolbar-config .field.compact { min-width: 0 }
 	.seg { width: 100% }
 	.seg-btn { flex: 1 1 0; justify-content: center }
+}
+@media (max-width: 560px) {
+	.bar { padding: 10px 10px }
 	.brand h1 { font-size: 15px }
 	.pane-head, .pane-foot, .stats { padding-left: 12px; padding-right: 12px }
 	.stats { column-gap: 14px }
 	.protos { width: 100%; margin-left: 0; padding-left: 0 }
 	.rail { max-height: 84vh }
 }
+@media (max-width: 340px) {
+	.toolbar-config { grid-template-columns: minmax(0, 1fr) }
+	.bar-end .btn { padding-left: 9px; padding-right: 9px }
+}
 @media (prefers-reduced-motion: reduce) {
 	*, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important }
 }
 
 /* ---------- 通知 ---------- */
-.toasts { position: fixed; z-index: 60; right: 18px; bottom: 18px; display: flex; flex-direction: column-reverse; align-items: flex-end; gap: 8px; pointer-events: none }
-.toast { pointer-events: auto; display: flex; align-items: center; gap: 9px; max-width: 380px; padding: 9px 8px 9px 12px; border-radius: 10px; background: var(--surface); border: 1px solid var(--line-2); box-shadow: 0 16px 32px -16px rgba(15, 15, 15, .42), 0 2px 6px -4px rgba(15, 15, 15, .28); font: 12.5px/1.45 var(--sans); color: var(--text); opacity: 0; transform: translateY(8px) scale(.98); transition: opacity .18s var(--ease), transform .18s var(--ease) }
+.toasts { position: fixed; z-index: 60; top: 70px; right: max(12px, env(safe-area-inset-right)); width: min(360px, calc(100vw - 24px)); display: flex; flex-direction: column; align-items: stretch; gap: 10px; pointer-events: none; transition: opacity .16s var(--ease), visibility .16s var(--ease) }
+body.rail-modal .toasts { visibility: hidden; opacity: 0 }
+.toast { --toast-tone: var(--ok); pointer-events: auto; position: relative; display: grid; grid-template-columns: 28px minmax(0, 1fr) auto auto; align-items: center; gap: 10px; width: 100%; min-height: 58px; padding: 10px 10px 10px 12px; border-radius: 16px; background: color-mix(in srgb, var(--surface) 82%, transparent); border: 1px solid color-mix(in srgb, var(--line-2) 70%, transparent); box-shadow: 0 18px 46px -20px rgba(0, 0, 0, .46), 0 5px 16px -10px rgba(0, 0, 0, .34), inset 0 1px rgba(255, 255, 255, .55); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); font: 12.5px/1.45 var(--sans); color: var(--text); opacity: 0; transform: translateY(-10px) scale(.985); transform-origin: top right; transition: opacity .2s var(--ease), transform .24s var(--ease) }
 .toast.in { opacity: 1; transform: none }
-.toast > i { flex: 0 0 auto; width: 7px; height: 7px; border-radius: 50%; background: var(--ok) }
-.toast.warn > i { background: var(--warn) }
-.toast.err > i { background: var(--err) }
-.toast .tx { flex: 1 1 auto; min-width: 0 }
-.toast .act { flex: 0 0 auto; height: 24px; padding: 0 9px; border-radius: 6px; border: 1px solid var(--line-2); background: var(--surface-2); color: var(--text); font: 500 11.5px/1 var(--sans); cursor: pointer; white-space: nowrap; transition: border-color .14s var(--ease), background .14s var(--ease) }
-.toast .act:hover { border-color: var(--accent); background: var(--accent-soft) }
-.toast .x { flex: 0 0 auto; width: 22px; height: 22px; padding: 0; border: 0; border-radius: 6px; background: none; color: var(--text-3); font: 15px/1 var(--sans); cursor: pointer }
-.toast .x:hover { background: var(--surface-2); color: var(--text) }
+.toast.warn { --toast-tone: var(--warn) }
+.toast.err { --toast-tone: var(--err) }
+.toast > i { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 9px; background: color-mix(in srgb, var(--toast-tone) 14%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--toast-tone) 12%, transparent) }
+.toast > i::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--toast-tone); box-shadow: 0 0 0 3px color-mix(in srgb, var(--toast-tone) 12%, transparent) }
+.toast .tx { min-width: 0; overflow-wrap: anywhere }
+.toast .act { height: 28px; padding: 0 10px; border-radius: 8px; border: 1px solid color-mix(in srgb, var(--line-2) 75%, transparent); background: color-mix(in srgb, var(--surface-2) 80%, transparent); color: var(--accent); font: 600 11.5px/1 var(--sans); cursor: pointer; white-space: nowrap; transition: background .14s var(--ease), transform .14s var(--ease) }
+.toast .act:hover { background: var(--accent-soft) }
+.toast .act:active { transform: scale(.97) }
+.toast .x { width: 28px; height: 28px; padding: 0; border: 0; border-radius: 9px; background: transparent; color: var(--text-3); font: 17px/1 var(--sans); cursor: pointer; transition: background .14s var(--ease), color .14s var(--ease) }
+.toast .x:hover { background: color-mix(in srgb, var(--surface-2) 82%, transparent); color: var(--text) }
 
 /* ---------- 折叠 ---------- */
 
@@ -390,15 +447,26 @@ input[type="checkbox"]:checked::after { transform: translateX(14px) }
 @media (min-width: 901px) and (max-width: 1100px) {
 }
 @media (max-width: 900px) {
-	.toasts { left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); align-items: stretch }
+	.toasts { left: auto; right: max(12px, env(safe-area-inset-right)); bottom: auto; align-items: stretch }
 	.toast { max-width: none }
 }
 
 /* ---------------- 三栏手动分割 ---------------- */
 .split { display: none }
 @media (min-width: 901px) {
-	.shell { grid-template-columns: var(--w-rail, 270px) 5px var(--w-in, 1fr) 5px minmax(240px, 1.1fr) }
-	.shell.rail-off { grid-template-columns: 0 0 var(--w-in, 1fr) 5px minmax(240px, 1.1fr) }
+	.shell {
+		grid-template-columns: var(--w-rail, 270px) 5px var(--w-in, 1fr) 5px minmax(240px, 1.1fr);
+		grid-template-areas: "rail rail-split input io-split output";
+	}
+	.shell > .rail { grid-area: rail }
+	.shell > #split1 { grid-area: rail-split }
+	.shell > #paneIn { grid-area: input }
+	.shell > #split2 { grid-area: io-split }
+	.shell > #paneOut { grid-area: output }
+	.shell.rail-off {
+		grid-template-columns: var(--w-in, 1fr) 5px minmax(240px, 1.1fr);
+		grid-template-areas: "input io-split output";
+	}
 	.shell.rail-off > .rail, .shell.rail-off > #split1 { display: none }
 	.split { display: block; position: relative; z-index: 4; background: var(--line); cursor: col-resize; touch-action: none; transition: background .14s var(--ease) }
 	.split::after { content: ''; position: absolute; top: 0; bottom: 0; left: -4px; right: -4px }
@@ -415,8 +483,12 @@ html::-webkit-scrollbar-track, body::-webkit-scrollbar-track, textarea::-webkit-
 html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb, textarea::-webkit-scrollbar-thumb { background: var(--line-2); border: 3px solid transparent; background-clip: content-box; border-radius: 999px }
 html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textarea::-webkit-scrollbar-thumb:hover { background: var(--text-3); background-clip: content-box }
 /* ---------------- 统计条元信息 ---------------- */
-.smeta { font: 11.5px/1.4 var(--mono); color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 46% }
-@media (max-width: 900px) { .smeta { max-width: 100%; flex: 1 1 100%; order: 9 } .protos { margin-left: 0 } }
+.smeta { flex: 1 1 auto; min-width: 0; max-width: none; font: 11.5px/1.4 var(--mono); color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+@media (max-width: 900px) {
+	.stats-info { align-items: flex-start; flex-wrap: wrap }
+	.smeta { flex: 1 1 100%; width: 100% }
+	.protos { flex: 1 1 100%; width: 100%; max-width: 100%; margin-left: 0 }
+}
 </style>
 </head>
 <body>
@@ -424,7 +496,11 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textar
 
 <header class="bar">
 	<div class="brand">
-		<svg class="logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h7.5M4 12h5M4 17h9"/><path d="M15 5l4.5 7-4.5 7"/></svg>
+		<svg class="logo" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+			<path class="logo-box" d="M18.5 6.5h7a2 2 0 0 1 2 2v15a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2v-15a2 2 0 0 1 2-2Z"/>
+			<path class="logo-flow" d="M4.5 10h6M4.5 16h8.5M4.5 22h6M12.5 11.5 17 16l-4.5 4.5"/>
+			<path class="logo-core" d="M22 11v10M19.5 13.5 22 11l2.5 2.5M19.5 18.5 22 21l2.5-2.5"/>
+		</svg>
 		<h1>Clash<span>2</span>SingBox</h1>
 		<span class="ver" id="ver">v1.3.6</span>
 	</div>
@@ -434,22 +510,24 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textar
 			<button class="seg-btn is-on" type="button" role="radio" data-mode="full" aria-checked="true">完整配置</button>
 		</div>
 		<input type="hidden" id="opt-mode" data-opt="mode" value="full">
-		<label class="field compact"><span>目标内核</span>
-			<select id="opt-target" data-opt="target">
-				<option value="modern">sing-box 1.12 – 1.13（稳定兼容・推荐）</option>
-				<option value="latest">sing-box 1.14+（新格式）</option>
-				<option value="legacy">sing-box 1.11 旧版兼容</option>
-			</select>
-		</label>
-		<label class="field compact"><span>客户端</span>
-			<select id="opt-preset" data-opt="preset">
-				<option value="universal">通用</option>
-				<option value="android">SFA・Android</option>
-				<option value="apple">SFI / SFM・iOS 与 macOS</option>
-				<option value="desktop">sing-box 桌面版</option>
-				<option value="gui">GUI.for.SingBox</option>
-			</select>
-		</label>
+		<div class="toolbar-config" aria-label="转换目标">
+			<label class="field compact"><span>目标内核</span>
+				<select id="opt-target" data-opt="target">
+					<option value="modern">sing-box 1.12 – 1.13（稳定兼容・推荐）</option>
+					<option value="latest">sing-box 1.14+（新格式）</option>
+					<option value="legacy">sing-box 1.11 旧版兼容</option>
+				</select>
+			</label>
+			<label class="field compact"><span>客户端</span>
+				<select id="opt-preset" data-opt="preset">
+					<option value="universal">通用</option>
+					<option value="android">SFA・Android</option>
+					<option value="apple">SFI / SFM・iOS 与 macOS</option>
+					<option value="desktop">sing-box 桌面版</option>
+					<option value="gui">GUI.for.SingBox</option>
+				</select>
+			</label>
+		</div>
 	</div>
 	<div class="bar-end">
 		<button class="btn ghost" id="railToggle" type="button" aria-controls="rail" aria-expanded="true" title="显示 / 收起转换选项">⚙ 设置</button>
@@ -540,7 +618,7 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textar
 				</select>
 			</label>
 		</details>
-		<details class="group" data-full="1">
+		<details class="group" open data-full="1">
 			<summary>其它</summary>
 			<label class="row switch"><input type="checkbox" id="opt-clashApi" data-opt="clashApi"><span>Clash 面板 API</span></label>
 			<label class="field"><span>面板端口</span><input type="number" id="opt-clashApiPort" data-opt="clashApiPort" min="1" max="65535" placeholder="9090"></label>
@@ -570,8 +648,8 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textar
 				<input type="file" id="file" accept=".yaml,.yml,.txt,.conf" hidden>
 			</div>
 		</div>
-		<textarea id="yaml" spellcheck="false" autocomplete="off" placeholder="粘贴 Clash / mihomo 配置，或拖入 .yaml 文件……&#10;&#10;快捷键：Ctrl/⌘ + Enter 转换・Ctrl/⌘ + S 下载・Ctrl/⌘ + K 复制・Ctrl/⌘ + O 打开文件・Ctrl/⌘ + D 主题"></textarea>
-		<div class="pane-foot"><span id="inputMeta">等待输入</span><span class="muted">自动转换已开启</span></div>
+		<textarea id="yaml" aria-label="Clash / mihomo YAML 配置" spellcheck="false" autocomplete="off" placeholder="粘贴 Clash / mihomo 配置，或拖入 .yaml 文件……&#10;&#10;快捷键：Ctrl/⌘ + Enter 转换・Ctrl/⌘ + S 下载・Ctrl/⌘ + K 复制・Ctrl/⌘ + O 打开文件・Ctrl/⌘ + D 主题"></textarea>
+		<div class="pane-foot"><span id="inputMeta">等待输入</span><span class="live-state"><i aria-hidden="true"></i>自动转换</span></div>
 	</section>
 
 	<div class="split" id="split2" role="separator" aria-orientation="vertical" tabindex="0" aria-label="拖动调节输入与输出区宽度" title="拖动调节宽度（方向键微调・双击复位）"></div>
@@ -592,19 +670,23 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textar
 				<p>输入 Clash 配置后，这里实时展示 sing-box 配置</p>
 			</div>
 		</div>
-		<div class="stats" id="stats">
-			<div class="stat"><b id="statNodes">0</b><span>节点</span></div>
-			<div class="stat"><b id="statFiltered">0</b><span>已过滤</span></div>
-			<div class="stat" data-full="1"><b id="statGroups">0</b><span>分组</span></div>
-			<div class="stat" data-full="1"><b id="statRules">0</b><span>规则</span></div>
-			<div class="stat" data-full="1"><b id="statSets">0</b><span>规则集</span></div>
-			<div class="stat" data-full="1"><b id="statOut">0</b><span>出站</span></div>
-			<div class="stat" data-full="1"><b id="statDns">0</b><span>DNS</span></div>
-			<div class="stat"><b id="statSkipped">0</b><span>跳过</span></div>
-			<div class="stat"><b id="statMs">0</b><span>耗时 ms</span></div>
-			<div class="stat"><b id="statSize">0</b><span>体积 KB</span></div>
-			<span class="smeta" id="statMeta">等待输入</span>
-			<div class="protos" id="protos"></div>
+		<div class="stats" id="stats" aria-label="转换统计">
+			<div class="stats-grid">
+				<div class="stat"><b id="statNodes">0</b><span>节点</span></div>
+				<div class="stat"><b id="statFiltered">0</b><span>已过滤</span></div>
+				<div class="stat" data-full="1"><b id="statGroups">0</b><span>分组</span></div>
+				<div class="stat" data-full="1"><b id="statRules">0</b><span>规则</span></div>
+				<div class="stat" data-full="1"><b id="statSets">0</b><span>规则集</span></div>
+				<div class="stat" data-full="1"><b id="statOut">0</b><span>出站</span></div>
+				<div class="stat" data-full="1"><b id="statDns">0</b><span>DNS</span></div>
+				<div class="stat"><b id="statSkipped">0</b><span>跳过</span></div>
+				<div class="stat"><b id="statMs">0</b><span>耗时 ms</span></div>
+				<div class="stat"><b id="statSize">0</b><span>体积 KB</span></div>
+			</div>
+			<div class="stats-info">
+				<span class="smeta" id="statMeta">等待输入</span>
+				<div class="protos" id="protos"></div>
+			</div>
 		</div>
 		<div class="drawer" id="issues" hidden></div>
 	</section>
@@ -3453,7 +3535,19 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textar
 			box.setAttribute('aria-live', 'polite')
 			document.body.appendChild(box)
 		}
+		positionToasts()
 		return box
+	}
+
+	function positionToasts() {
+		var box = document.getElementById('toasts')
+		if (!box) return
+		var bar = document.querySelector('.bar')
+		var paneHead = document.querySelector('#paneIn .pane-head')
+		var bottom = 0
+		if (bar) bottom = Math.max(bottom, bar.getBoundingClientRect().bottom)
+		if (paneHead) bottom = Math.max(bottom, paneHead.getBoundingClientRect().bottom)
+		box.style.top = Math.ceil(bottom + 12) + 'px'
 	}
 
 	function toast(text, kind, action) {
@@ -3466,7 +3560,6 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textar
 		while (box.children.length > 2) box.removeChild(box.children[box.children.length - 1])
 		var node = document.createElement('div')
 		node.className = 'toast' + (kind ? ' ' + kind : '')
-		node.setAttribute('role', 'status')
 		node.appendChild(document.createElement('i'))
 		var body = document.createElement('span')
 		body.className = 'tx'
@@ -3633,7 +3726,9 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textar
 		el.statOut.textContent = report.outbounds || 0
 		el.statDns.textContent = report.dnsServers || 0
 		el.statSkipped.textContent = report.skipped || 0
-		el.statMeta.textContent = metaText(report)
+		var meta = metaText(report)
+		el.statMeta.textContent = meta
+		el.statMeta.title = meta
 		renderProtos(report.protocols)
 		renderIssues(report.issues || [])
 		if (report.errorCount) setStatus('\u9519\u8bef ' + report.errorCount, 'err')
@@ -3643,6 +3738,8 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textar
 
 	function applyMode() {
 		var nodes = el.optMode.value === 'nodes'
+		var stats = document.getElementById('stats')
+		if (stats && stats.classList) stats.classList.toggle('is-nodes', nodes)
 		var gated = [].slice.call(document.querySelectorAll('[data-full]'))
 		for (var i = 0; i < gated.length; i++) gated[i].hidden = nodes
 		var onlyNodes = [].slice.call(document.querySelectorAll('[data-nodes]'))
@@ -3652,6 +3749,7 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textar
 			var on = (btns[j].getAttribute('data-mode') === 'nodes') === nodes
 			btns[j].className = on ? 'seg-btn is-on' : 'seg-btn'
 			btns[j].setAttribute('aria-checked', on ? 'true' : 'false')
+			btns[j].setAttribute('tabindex', on ? '0' : '-1')
 		}
 		el.download.textContent = nodes ? '\u4e0b\u8f7d outbounds.json' : '\u4e0b\u8f7d config.json'
 		var wrapSel = document.getElementById('opt-wrap')
@@ -3674,10 +3772,30 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textar
 		return out
 	}
 
+	function setRailPeersInert(inert) {
+		var bar = document.querySelector('.bar')
+		var peers = [document.getElementById('paneIn'), document.getElementById('paneOut'), document.getElementById('toasts')]
+		for (var i = 0; i < peers.length; i++) {
+			if (!peers[i]) continue
+			if (inert) peers[i].setAttribute('inert', '')
+			else peers[i].removeAttribute('inert')
+		}
+		if (bar) {
+			var controls = bar.querySelectorAll('button, input, select, textarea, a[href], [tabindex]:not([tabindex="-1"])')
+			for (var j = 0; j < controls.length; j++) {
+				if (controls[j] === el.railToggle) continue
+				if (inert) controls[j].setAttribute('inert', '')
+				else controls[j].removeAttribute('inert')
+			}
+		}
+	}
+
 	function railOpen(open) {
 		el.rail.className = open ? 'rail open' : 'rail'
 		el.railVeil.hidden = !open
 		el.railToggle.setAttribute('aria-expanded', open ? 'true' : 'false')
+		if (document.body.classList) document.body.classList.toggle('rail-modal', open)
+		setRailPeersInert(open)
 		if (open) {
 			railLastFocus = document.activeElement
 			el.rail.setAttribute('role', 'dialog')
@@ -3720,7 +3838,8 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textar
 	function clampSizes() {
 		var total = el.shell.getBoundingClientRect().width
 		if (!total) return
-		var railW = railOff ? 0 : Math.max(MIN_RAIL, Math.min(MAX_RAIL, sizes.rail || DEF_RAIL))
+		var railMax = Math.max(MIN_RAIL, Math.min(MAX_RAIL, total - 10 - MIN_PANE * 2))
+		var railW = railOff ? 0 : Math.max(MIN_RAIL, Math.min(railMax, sizes.rail || DEF_RAIL))
 		var avail = total - railW - (railOff ? 5 : 10)
 		var inW = sizes['in'] || Math.round(avail / 2.1)
 		var max = avail - MIN_PANE
@@ -3734,6 +3853,20 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textar
 		clampSizes()
 		el.shell.style.setProperty('--w-rail', sizes.rail + 'px')
 		el.shell.style.setProperty('--w-in', sizes['in'] + 'px')
+		var total = Math.round(el.shell.getBoundingClientRect().width)
+		var railMax = Math.max(MIN_RAIL, Math.min(MAX_RAIL, total - 10 - MIN_PANE * 2))
+		var inputMax = Math.max(MIN_PANE, total - (railOff ? 5 : sizes.rail + 10) - MIN_PANE)
+		var split1 = document.getElementById('split1'), split2 = document.getElementById('split2')
+		if (split1) {
+			split1.setAttribute('aria-valuemin', String(MIN_RAIL))
+			split1.setAttribute('aria-valuemax', String(railMax))
+			split1.setAttribute('aria-valuenow', String(sizes.rail))
+		}
+		if (split2) {
+			split2.setAttribute('aria-valuemin', String(MIN_PANE))
+			split2.setAttribute('aria-valuemax', String(inputMax))
+			split2.setAttribute('aria-valuenow', String(sizes['in']))
+		}
 	}
 
 	function storeSplit() { UI.store(KEY_SPLIT, JSON.stringify(sizes)) }
@@ -3789,7 +3922,27 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textar
 		paintShell()
 		paintSplit()
 		UI.store(KEY_RAIL, collapsed ? 'off' : 'on')
-		if (wideScreen()) el.railToggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true')
+		syncRailMode()
+	}
+
+	function syncRailMode() {
+		if (wideScreen()) {
+			var wasOpen = railIsOpen()
+			var focusWasInside = el.rail.contains(document.activeElement)
+			var restoreToggle = railOff && (focusWasInside || wasOpen)
+			if (wasOpen) el.rail.className = 'rail'
+			el.railVeil.hidden = true
+			el.rail.removeAttribute('role')
+			el.rail.removeAttribute('aria-modal')
+			if (document.body.classList) document.body.classList.remove('rail-modal')
+			setRailPeersInert(false)
+			if (restoreToggle && el.railToggle.focus) el.railToggle.focus()
+			railLastFocus = null
+			el.railToggle.setAttribute('aria-expanded', railOff ? 'false' : 'true')
+		} else {
+			if (!railIsOpen() && el.rail.contains(document.activeElement) && el.railToggle.focus) el.railToggle.focus()
+			el.railToggle.setAttribute('aria-expanded', railIsOpen() ? 'true' : 'false')
+		}
 	}
 
 
@@ -3807,6 +3960,7 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textar
 		el.statDns.textContent = '0'
 		el.statSkipped.textContent = '0'
 		el.statMeta.textContent = '等待输入'
+		el.statMeta.title = ''
 		el.protos.innerHTML = ''
 		el.issueCount.textContent = '0'
 		el.issues.innerHTML = '<p class="none">暂无诊断信息。</p>'
@@ -3919,6 +4073,7 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textar
 	document.getElementById('clear').addEventListener('click', function () { el.yaml.value = ''; el.yaml.focus(); convert() })
 	document.getElementById('reset').addEventListener('click', function () {
 		UI.fill(API.DEFAULTS)
+		;[].slice.call(document.querySelectorAll('#rail details.group')).forEach(function (item) { item.open = true })
 		state.options = UI.collect()
 		UI.store(UI.KEY_OPTS, JSON.stringify(state.options))
 		applyMode()
@@ -3937,6 +4092,21 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textar
 			applyMode()
 			convert()
 		})
+	})
+	el.modeSeg.addEventListener('keydown', function (event) {
+		var key = String(event.key || '').toLowerCase()
+		if (['arrowleft', 'arrowright', 'arrowup', 'arrowdown', 'home', 'end'].indexOf(key) < 0) return
+		var btns = [].slice.call(el.modeSeg.querySelectorAll('.seg-btn'))
+		if (!btns.length) return
+		var current = btns.indexOf(document.activeElement)
+		if (current < 0) current = 0
+		var next = key === 'home' ? 0 : key === 'end' ? btns.length - 1
+			: (key === 'arrowleft' || key === 'arrowup' ? current - 1 : current + 1)
+		if (next < 0) next = btns.length - 1
+		if (next >= btns.length) next = 0
+		event.preventDefault()
+		btns[next].focus()
+		btns[next].click()
 	})
 	el.railToggle.addEventListener('click', function () {
 		if (wideScreen()) applyRail(!railCollapsed())
@@ -4029,12 +4199,11 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textar
 	sizes['in'] = parseInt(savedSplit['in'], 10) || 0
 	bindSplit('split1', 'rail')
 	bindSplit('split2', 'in')
-	addEventListener('resize', function () { paintSplit() })
+	addEventListener('resize', function () { syncRailMode(); paintSplit(); positionToasts() })
 	el.issues.addEventListener('click', function (event) {
 		var hit = event.target
 		if (hit && hit.getAttribute && hit.getAttribute('data-fix') === 'target') applyTargetFix()
 	})
-	paintSplit()
 	applyRail(UI.restore(KEY_RAIL) === 'off')
 	UI.setWorker(UI.bootWorker())
 	el.ver.textContent = 'v' + API.VERSION
