@@ -7,8 +7,8 @@
 	"scope": ".",
 	"display": "standalone",
 	"background_color": "#f9f8f7",
-	"theme_color": "#2783de",
+	"theme_color": "#156db7",
 	"icons": [
-		{ "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+		{ "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
 	]
 }
