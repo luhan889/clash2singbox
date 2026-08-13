@@ -15,7 +15,11 @@
 
 <header class="bar">
 	<div class="brand">
-		<svg class="logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h7.5M4 12h5M4 17h9"/><path d="M15 5l4.5 7-4.5 7"/></svg>
+		<svg class="logo" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+			<path class="logo-box" d="M18.5 6.5h7a2 2 0 0 1 2 2v15a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2v-15a2 2 0 0 1 2-2Z"/>
+			<path class="logo-flow" d="M4.5 10h6M4.5 16h8.5M4.5 22h6M12.5 11.5 17 16l-4.5 4.5"/>
+			<path class="logo-core" d="M22 11v10M19.5 13.5 22 11l2.5 2.5M19.5 18.5 22 21l2.5-2.5"/>
+		</svg>
 		<h1>Clash<span>2</span>SingBox</h1>
 		<span class="ver" id="ver">v1.3.6</span>
 	</div>
@@ -133,7 +137,7 @@
 				</select>
 			</label>
 		</details>
-		<details class="group" data-full="1">
+		<details class="group" open data-full="1">
 			<summary>其它</summary>
 			<label class="row switch"><input type="checkbox" id="opt-clashApi" data-opt="clashApi"><span>Clash 面板 API</span></label>
 			<label class="field"><span>面板端口</span><input type="number" id="opt-clashApiPort" data-opt="clashApiPort" min="1" max="65535" placeholder="9090"></label>
@@ -163,8 +167,8 @@
 				<input type="file" id="file" accept=".yaml,.yml,.txt,.conf" hidden>
 			</div>
 		</div>
-		<textarea id="yaml" spellcheck="false" autocomplete="off" placeholder="粘贴 Clash / mihomo 配置，或拖入 .yaml 文件……&#10;&#10;快捷键：Ctrl/⌘ + Enter 转换・Ctrl/⌘ + S 下载・Ctrl/⌘ + K 复制・Ctrl/⌘ + O 打开文件・Ctrl/⌘ + D 主题"></textarea>
-		<div class="pane-foot"><span id="inputMeta">等待输入</span><span class="muted">自动转换已开启</span></div>
+		<textarea id="yaml" aria-label="Clash / mihomo YAML 配置" spellcheck="false" autocomplete="off" placeholder="粘贴 Clash / mihomo 配置，或拖入 .yaml 文件……&#10;&#10;快捷键：Ctrl/⌘ + Enter 转换・Ctrl/⌘ + S 下载・Ctrl/⌘ + K 复制・Ctrl/⌘ + O 打开文件・Ctrl/⌘ + D 主题"></textarea>
+		<div class="pane-foot"><span id="inputMeta">等待输入</span><span class="live-state"><i aria-hidden="true"></i>自动转换</span></div>
 	</section>
 
 	<div class="split" id="split2" role="separator" aria-orientation="vertical" tabindex="0" aria-label="拖动调节输入与输出区宽度" title="拖动调节宽度（方向键微调・双击复位）"></div>
@@ -185,19 +189,23 @@
 				<p>输入 Clash 配置后，这里实时展示 sing-box 配置</p>
 			</div>
 		</div>
-		<div class="stats" id="stats">
-			<div class="stat"><b id="statNodes">0</b><span>节点</span></div>
-			<div class="stat"><b id="statFiltered">0</b><span>已过滤</span></div>
-			<div class="stat" data-full="1"><b id="statGroups">0</b><span>分组</span></div>
-			<div class="stat" data-full="1"><b id="statRules">0</b><span>规则</span></div>
-			<div class="stat" data-full="1"><b id="statSets">0</b><span>规则集</span></div>
-			<div class="stat" data-full="1"><b id="statOut">0</b><span>出站</span></div>
-			<div class="stat" data-full="1"><b id="statDns">0</b><span>DNS</span></div>
-			<div class="stat"><b id="statSkipped">0</b><span>跳过</span></div>
-			<div class="stat"><b id="statMs">0</b><span>耗时 ms</span></div>
-			<div class="stat"><b id="statSize">0</b><span>体积 KB</span></div>
-			<span class="smeta" id="statMeta">等待输入</span>
-			<div class="protos" id="protos"></div>
+		<div class="stats" id="stats" aria-label="转换统计">
+			<div class="stats-grid">
+				<div class="stat"><b id="statNodes">0</b><span>节点</span></div>
+				<div class="stat"><b id="statFiltered">0</b><span>已过滤</span></div>
+				<div class="stat" data-full="1"><b id="statGroups">0</b><span>分组</span></div>
+				<div class="stat" data-full="1"><b id="statRules">0</b><span>规则</span></div>
+				<div class="stat" data-full="1"><b id="statSets">0</b><span>规则集</span></div>
+				<div class="stat" data-full="1"><b id="statOut">0</b><span>出站</span></div>
+				<div class="stat" data-full="1"><b id="statDns">0</b><span>DNS</span></div>
+				<div class="stat"><b id="statSkipped">0</b><span>跳过</span></div>
+				<div class="stat"><b id="statMs">0</b><span>耗时 ms</span></div>
+				<div class="stat"><b id="statSize">0</b><span>体积 KB</span></div>
+			</div>
+			<div class="stats-info">
+				<span class="smeta" id="statMeta">等待输入</span>
+				<div class="protos" id="protos"></div>
+			</div>
 		</div>
 		<div class="drawer" id="issues" hidden></div>
 	</section>
