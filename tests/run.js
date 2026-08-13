@@ -218,6 +218,9 @@ ok('ip-version 映射为 domain_strategy', byTag(y5.config.outbounds, 'A').domai
 var y7 = C.convert(Y('dns:', '  enable: true', '  nameserver: [223.5.5.5]', '  direct-nameserver: [119.29.29.29]', 'proxies:', NODE, 'rules:', '  - MATCH,A'), {})
 var dd = byTag(y7.config.dns.servers, 'dns-direct')
 ok('direct-nameserver 用于直连解析', !!dd && JSON.stringify(dd).indexOf('119.29.29.29') >= 0, dd)
+var y9 = C.convert(Y('proxies:', '  - {name: HTTPUpgrade, type: vmess, server: hu.example.com, port: 443, uuid: 11111111-1111-1111-1111-111111111111, tls: true, network: httpupgrade, ws-opts: {path: /upgrade, headers: {Host: cdn.example.com, X-Edge: edge-token}}}', 'rules:', '  - MATCH,HTTPUpgrade'), {})
+var hu = byTag(y9.config.outbounds, 'HTTPUpgrade')
+ok('HTTPUpgrade 保留 Host 与自定义请求头', !!hu && hu.transport && hu.transport.type === 'httpupgrade' && hu.transport.host === 'cdn.example.com' && hu.transport.headers && hu.transport.headers['X-Edge'] === 'edge-token' && hu.transport.headers.Host === undefined, hu && hu.transport)
 
 sec('13 输出模式与节点适配')
 

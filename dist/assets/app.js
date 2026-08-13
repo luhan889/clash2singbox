@@ -296,7 +296,19 @@
 			box.setAttribute('aria-live', 'polite')
 			document.body.appendChild(box)
 		}
+		positionToasts()
 		return box
+	}
+
+	function positionToasts() {
+		var box = document.getElementById('toasts')
+		if (!box) return
+		var bar = document.querySelector('.bar')
+		var paneHead = document.querySelector('#paneIn .pane-head')
+		var bottom = 0
+		if (bar) bottom = Math.max(bottom, bar.getBoundingClientRect().bottom)
+		if (paneHead) bottom = Math.max(bottom, paneHead.getBoundingClientRect().bottom)
+		box.style.top = Math.ceil(bottom + 12) + 'px'
 	}
 
 	function toast(text, kind, action) {
@@ -309,7 +321,6 @@
 		while (box.children.length > 2) box.removeChild(box.children[box.children.length - 1])
 		var node = document.createElement('div')
 		node.className = 'toast' + (kind ? ' ' + kind : '')
-		node.setAttribute('role', 'status')
 		node.appendChild(document.createElement('i'))
 		var body = document.createElement('span')
 		body.className = 'tx'
@@ -457,7 +468,7 @@
 	var CLIENT_LABEL = { universal: '通用', android: 'SFA・Android', apple: 'SFI / SFM', desktop: 'sing-box 桌面版', gui: 'GUI.for.SingBox' }
 
 	function metaText(report) {
-		var bits = [report.target === 'legacy' ? 'sing-box 1.11' : report.target === 'latest' ? 'sing-box 1.14+' : 'sing-box 1.12–1.13']
+		var bits = [report.target === 'legacy' ? 'sing-box 1.11' : report.target === 'latest' ? 'sing-box 1.14 beta' : 'sing-box 1.12–1.13']
 		bits.push(CLIENT_LABEL[report.preset] || '通用')
 		if (report.mode === 'nodes') bits.push(report.wrap === 'outbounds' ? '{ "outbounds": [ … ] }' : '数组 [ … ]')
 		else bits.push('落地 ' + (report.final || 'direct') + '，规则 ' + (report.rulesInput || 0) + ' → ' + (report.rules || 0))
@@ -476,7 +487,9 @@
 		el.statOut.textContent = report.outbounds || 0
 		el.statDns.textContent = report.dnsServers || 0
 		el.statSkipped.textContent = report.skipped || 0
-		el.statMeta.textContent = metaText(report)
+		var meta = metaText(report)
+		el.statMeta.textContent = meta
+		el.statMeta.title = meta
 		renderProtos(report.protocols)
 		renderIssues(report.issues || [])
 		if (report.errorCount) setStatus('\u9519\u8bef ' + report.errorCount, 'err')
@@ -486,6 +499,8 @@
 
 	function applyMode() {
 		var nodes = el.optMode.value === 'nodes'
+		var stats = document.getElementById('stats')
+		if (stats && stats.classList) stats.classList.toggle('is-nodes', nodes)
 		var gated = [].slice.call(document.querySelectorAll('[data-full]'))
 		for (var i = 0; i < gated.length; i++) gated[i].hidden = nodes
 		var onlyNodes = [].slice.call(document.querySelectorAll('[data-nodes]'))
@@ -495,6 +510,7 @@
 			var on = (btns[j].getAttribute('data-mode') === 'nodes') === nodes
 			btns[j].className = on ? 'seg-btn is-on' : 'seg-btn'
 			btns[j].setAttribute('aria-checked', on ? 'true' : 'false')
+			btns[j].setAttribute('tabindex', on ? '0' : '-1')
 		}
 		el.download.textContent = nodes ? '\u4e0b\u8f7d outbounds.json' : '\u4e0b\u8f7d config.json'
 		var wrapSel = document.getElementById('opt-wrap')
@@ -517,10 +533,30 @@
 		return out
 	}
 
+	function setRailPeersInert(inert) {
+		var bar = document.querySelector('.bar')
+		var peers = [document.getElementById('paneIn'), document.getElementById('paneOut'), document.getElementById('toasts')]
+		for (var i = 0; i < peers.length; i++) {
+			if (!peers[i]) continue
+			if (inert) peers[i].setAttribute('inert', '')
+			else peers[i].removeAttribute('inert')
+		}
+		if (bar) {
+			var controls = bar.querySelectorAll('button, input, select, textarea, a[href], [tabindex]:not([tabindex="-1"])')
+			for (var j = 0; j < controls.length; j++) {
+				if (controls[j] === el.railToggle) continue
+				if (inert) controls[j].setAttribute('inert', '')
+				else controls[j].removeAttribute('inert')
+			}
+		}
+	}
+
 	function railOpen(open) {
 		el.rail.className = open ? 'rail open' : 'rail'
 		el.railVeil.hidden = !open
 		el.railToggle.setAttribute('aria-expanded', open ? 'true' : 'false')
+		if (document.body.classList) document.body.classList.toggle('rail-modal', open)
+		setRailPeersInert(open)
 		if (open) {
 			railLastFocus = document.activeElement
 			el.rail.setAttribute('role', 'dialog')
@@ -563,7 +599,8 @@
 	function clampSizes() {
 		var total = el.shell.getBoundingClientRect().width
 		if (!total) return
-		var railW = railOff ? 0 : Math.max(MIN_RAIL, Math.min(MAX_RAIL, sizes.rail || DEF_RAIL))
+		var railMax = Math.max(MIN_RAIL, Math.min(MAX_RAIL, total - 10 - MIN_PANE * 2))
+		var railW = railOff ? 0 : Math.max(MIN_RAIL, Math.min(railMax, sizes.rail || DEF_RAIL))
 		var avail = total - railW - (railOff ? 5 : 10)
 		var inW = sizes['in'] || Math.round(avail / 2.1)
 		var max = avail - MIN_PANE
@@ -577,6 +614,20 @@
 		clampSizes()
 		el.shell.style.setProperty('--w-rail', sizes.rail + 'px')
 		el.shell.style.setProperty('--w-in', sizes['in'] + 'px')
+		var total = Math.round(el.shell.getBoundingClientRect().width)
+		var railMax = Math.max(MIN_RAIL, Math.min(MAX_RAIL, total - 10 - MIN_PANE * 2))
+		var inputMax = Math.max(MIN_PANE, total - (railOff ? 5 : sizes.rail + 10) - MIN_PANE)
+		var split1 = document.getElementById('split1'), split2 = document.getElementById('split2')
+		if (split1) {
+			split1.setAttribute('aria-valuemin', String(MIN_RAIL))
+			split1.setAttribute('aria-valuemax', String(railMax))
+			split1.setAttribute('aria-valuenow', String(sizes.rail))
+		}
+		if (split2) {
+			split2.setAttribute('aria-valuemin', String(MIN_PANE))
+			split2.setAttribute('aria-valuemax', String(inputMax))
+			split2.setAttribute('aria-valuenow', String(sizes['in']))
+		}
 	}
 
 	function storeSplit() { UI.store(KEY_SPLIT, JSON.stringify(sizes)) }
@@ -632,7 +683,27 @@
 		paintShell()
 		paintSplit()
 		UI.store(KEY_RAIL, collapsed ? 'off' : 'on')
-		if (wideScreen()) el.railToggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true')
+		syncRailMode()
+	}
+
+	function syncRailMode() {
+		if (wideScreen()) {
+			var wasOpen = railIsOpen()
+			var focusWasInside = el.rail.contains(document.activeElement)
+			var restoreToggle = railOff && (focusWasInside || wasOpen)
+			if (wasOpen) el.rail.className = 'rail'
+			el.railVeil.hidden = true
+			el.rail.removeAttribute('role')
+			el.rail.removeAttribute('aria-modal')
+			if (document.body.classList) document.body.classList.remove('rail-modal')
+			setRailPeersInert(false)
+			if (restoreToggle && el.railToggle.focus) el.railToggle.focus()
+			railLastFocus = null
+			el.railToggle.setAttribute('aria-expanded', railOff ? 'false' : 'true')
+		} else {
+			if (!railIsOpen() && el.rail.contains(document.activeElement) && el.railToggle.focus) el.railToggle.focus()
+			el.railToggle.setAttribute('aria-expanded', railIsOpen() ? 'true' : 'false')
+		}
 	}
 
 
@@ -650,6 +721,7 @@
 		el.statDns.textContent = '0'
 		el.statSkipped.textContent = '0'
 		el.statMeta.textContent = '等待输入'
+		el.statMeta.title = ''
 		el.protos.innerHTML = ''
 		el.issueCount.textContent = '0'
 		el.issues.innerHTML = '<p class="none">暂无诊断信息。</p>'
@@ -762,6 +834,7 @@
 	document.getElementById('clear').addEventListener('click', function () { el.yaml.value = ''; el.yaml.focus(); convert() })
 	document.getElementById('reset').addEventListener('click', function () {
 		UI.fill(API.DEFAULTS)
+		;[].slice.call(document.querySelectorAll('#rail details.group')).forEach(function (item, index) { item.open = index === 0 })
 		state.options = UI.collect()
 		UI.store(UI.KEY_OPTS, JSON.stringify(state.options))
 		applyMode()
@@ -780,6 +853,21 @@
 			applyMode()
 			convert()
 		})
+	})
+	el.modeSeg.addEventListener('keydown', function (event) {
+		var key = String(event.key || '').toLowerCase()
+		if (['arrowleft', 'arrowright', 'arrowup', 'arrowdown', 'home', 'end'].indexOf(key) < 0) return
+		var btns = [].slice.call(el.modeSeg.querySelectorAll('.seg-btn'))
+		if (!btns.length) return
+		var current = btns.indexOf(document.activeElement)
+		if (current < 0) current = 0
+		var next = key === 'home' ? 0 : key === 'end' ? btns.length - 1
+			: (key === 'arrowleft' || key === 'arrowup' ? current - 1 : current + 1)
+		if (next < 0) next = btns.length - 1
+		if (next >= btns.length) next = 0
+		event.preventDefault()
+		btns[next].focus()
+		btns[next].click()
 	})
 	el.railToggle.addEventListener('click', function () {
 		if (wideScreen()) applyRail(!railCollapsed())
@@ -872,12 +960,11 @@
 	sizes['in'] = parseInt(savedSplit['in'], 10) || 0
 	bindSplit('split1', 'rail')
 	bindSplit('split2', 'in')
-	addEventListener('resize', function () { paintSplit() })
+	addEventListener('resize', function () { syncRailMode(); paintSplit(); positionToasts() })
 	el.issues.addEventListener('click', function (event) {
 		var hit = event.target
 		if (hit && hit.getAttribute && hit.getAttribute('data-fix') === 'target') applyTargetFix()
 	})
-	paintSplit()
 	applyRail(UI.restore(KEY_RAIL) === 'off')
 	UI.setWorker(UI.bootWorker())
 	el.ver.textContent = 'v' + API.VERSION
