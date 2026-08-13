@@ -33,7 +33,7 @@
 			<label class="field compact"><span>目标内核</span>
 				<select id="opt-target" data-opt="target">
 					<option value="modern">sing-box 1.12 – 1.13（稳定兼容・推荐）</option>
-					<option value="latest">sing-box 1.14+（新格式）</option>
+					<option value="latest">sing-box 1.14 beta（实验性新格式）</option>
 					<option value="legacy">sing-box 1.11 旧版兼容</option>
 				</select>
 			</label>
@@ -91,8 +91,8 @@
 			</label>
 			<label class="row switch"><input type="checkbox" id="opt-pretty" data-opt="pretty"><span>格式化输出</span></label>
 		</details>
-		<details class="group" open data-full="1">
-			<summary>入口</summary>
+			<details class="group" data-full="1">
+				<summary>入口</summary>
 			<label class="row switch"><input type="checkbox" id="opt-tun" data-opt="tun"><span>TUN 透明代理</span></label>
 			<label class="field"><span>TUN 栈</span>
 				<select id="opt-tunStack" data-opt="tunStack">
@@ -106,16 +106,16 @@
 			<label class="field"><span>端口（空 = 跟随源配置）</span><input type="number" id="opt-mixedPort" data-opt="mixedPort" min="1" max="65535" placeholder="7890"></label>
 			<label class="row switch"><input type="checkbox" id="opt-allowLan" data-opt="allowLan"><span>允许局域网连接</span></label>
 		</details>
-		<details class="group" open data-full="1">
-			<summary>DNS</summary>
+			<details class="group" data-full="1">
+				<summary>DNS</summary>
 			<label class="row switch"><input type="checkbox" id="opt-fakeip" data-opt="fakeip"><span>FakeIP 加速</span></label>
 			<label class="row switch"><input type="checkbox" id="opt-ipv6" data-opt="ipv6"><span>开启 IPv6</span></label>
 			<label class="field"><span>国内 DNS</span><input type="text" id="opt-dnsDirect" data-opt="dnsDirect" placeholder="空 = 跟随源配置 nameserver" spellcheck="false"></label>
 			<label class="field"><span>国外 DNS</span><input type="text" id="opt-dnsProxy" data-opt="dnsProxy" placeholder="空 = 跟随源配置 fallback" spellcheck="false"></label>
 			<label class="row switch"><input type="checkbox" id="opt-dnsFollowRoute" data-opt="dnsFollowRoute"><span>DNS 跟随直连规则集</span></label>
 		</details>
-		<details class="group" open data-full="1">
-			<summary>路由</summary>
+			<details class="group" data-full="1">
+				<summary>路由</summary>
 			<label class="row switch"><input type="checkbox" id="opt-sniff" data-opt="sniff"><span>域名嗅探</span></label>
 			<label class="row switch"><input type="checkbox" id="opt-lanDirect" data-opt="lanDirect"><span>内网地址直连</span></label>
 			<label class="row switch"><input type="checkbox" id="opt-resolveIpRules" data-opt="resolveIpRules"><span>IP 规则前插入 resolve</span></label>
@@ -137,8 +137,8 @@
 				</select>
 			</label>
 		</details>
-		<details class="group" open data-full="1">
-			<summary>其它</summary>
+			<details class="group" data-full="1">
+				<summary>其它</summary>
 			<label class="row switch"><input type="checkbox" id="opt-clashApi" data-opt="clashApi"><span>Clash 面板 API</span></label>
 			<label class="field"><span>面板端口</span><input type="number" id="opt-clashApiPort" data-opt="clashApiPort" min="1" max="65535" placeholder="9090"></label>
 			<label class="row switch"><input type="checkbox" id="opt-cacheFile" data-opt="cacheFile"><span>缓存文件</span></label>

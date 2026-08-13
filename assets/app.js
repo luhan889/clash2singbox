@@ -468,7 +468,7 @@
 	var CLIENT_LABEL = { universal: '通用', android: 'SFA・Android', apple: 'SFI / SFM', desktop: 'sing-box 桌面版', gui: 'GUI.for.SingBox' }
 
 	function metaText(report) {
-		var bits = [report.target === 'legacy' ? 'sing-box 1.11' : report.target === 'latest' ? 'sing-box 1.14+' : 'sing-box 1.12–1.13']
+		var bits = [report.target === 'legacy' ? 'sing-box 1.11' : report.target === 'latest' ? 'sing-box 1.14 beta' : 'sing-box 1.12–1.13']
 		bits.push(CLIENT_LABEL[report.preset] || '通用')
 		if (report.mode === 'nodes') bits.push(report.wrap === 'outbounds' ? '{ "outbounds": [ … ] }' : '数组 [ … ]')
 		else bits.push('落地 ' + (report.final || 'direct') + '，规则 ' + (report.rulesInput || 0) + ' → ' + (report.rules || 0))
@@ -834,7 +834,7 @@
 	document.getElementById('clear').addEventListener('click', function () { el.yaml.value = ''; el.yaml.focus(); convert() })
 	document.getElementById('reset').addEventListener('click', function () {
 		UI.fill(API.DEFAULTS)
-		;[].slice.call(document.querySelectorAll('#rail details.group')).forEach(function (item) { item.open = true })
+		;[].slice.call(document.querySelectorAll('#rail details.group')).forEach(function (item, index) { item.open = index === 0 })
 		state.options = UI.collect()
 		UI.store(UI.KEY_OPTS, JSON.stringify(state.options))
 		applyMode()

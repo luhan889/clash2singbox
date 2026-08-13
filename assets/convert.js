@@ -25,7 +25,7 @@
 	var TARGET_CAPS = {
 		legacy: { modernDns: false, wireguardEndpoint: false, httpClient: false, schema: false, label: '1.11' },
 		modern: { modernDns: true, wireguardEndpoint: true, httpClient: false, schema: false, label: '1.12–1.13' },
-		latest: { modernDns: true, wireguardEndpoint: true, httpClient: true, schema: true, label: '1.14+' }
+		latest: { modernDns: true, wireguardEndpoint: true, httpClient: true, schema: true, label: '1.14 beta' }
 	}
 	function targetCaps(target) { return TARGET_CAPS[target] || TARGET_CAPS.modern }
 
@@ -437,7 +437,12 @@
 			var t2 = { type: 'httpupgrade', path: str(pick(hu2, 'path')) || '/' }
 			var hs = headersOf(pick(hu2, 'headers'))
 			var hostv = hs && (hs.Host || hs.host)
-			if (hostv) t2.host = Array.isArray(hostv) ? hostv[0] : hostv
+			if (hostv) {
+				t2.host = Array.isArray(hostv) ? hostv[0] : hostv
+				delete hs.Host
+				delete hs.host
+			}
+			if (hs && Object.keys(hs).length) t2.headers = hs
 			return t2
 		}
 		if (net === 'quic') {
