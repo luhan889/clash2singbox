@@ -13,7 +13,7 @@ var cp = require('child_process')
 var ROOT = path.join(__dirname, '..')
 var DIST = path.join(ROOT, 'dist')
 var SRC = path.join(DIST, 'index.html')
-var WIDTHS = [1440, 1280, 1100, 1024, 900, 768, 414, 360, 320]
+var WIDTHS = [1920, 1440, 1321, 1320, 1280, 1101, 1100, 1024, 916, 901, 900, 768, 560, 414, 390, 360, 320]
 var browserTimedOut = false
 
 function findBrowser() {
@@ -36,6 +36,12 @@ function findBrowser() {
 var PROBE = [
 	'(function(){',
 	'function run(){',
+	'function panes(){',
+	'  var shell = document.getElementById("shell"); var pin = document.getElementById("paneIn"); var pout = document.getElementById("paneOut");',
+	'  if (!shell || !pin || !pout) return null;',
+	'  var s = shell.getBoundingClientRect(); var a = pin.getBoundingClientRect(); var b = pout.getBoundingClientRect();',
+	'  return { inW: a.width, outW: b.width, order: a.right <= b.left + 1, rightGap: Math.abs(s.right - b.right) };',
+	'}',
 	'var narrow = innerWidth <= 900;',
 	'var rail = document.getElementById("rail");',
 	'if (rail && narrow) { rail.style.transition = "none"; rail.className = "rail open"; }',
@@ -56,6 +62,13 @@ var PROBE = [
 	'  out.railH = rail.scrollHeight; out.railView = rail.clientHeight;',
 	'  out.railOverflow = rail.scrollWidth - rail.clientWidth > 1 ? rail.scrollWidth - rail.clientWidth : 0;',
 	'  if (rail.scrollHeight - rail.clientHeight > 2 && rs.overflowY !== "auto" && rs.overflowY !== "scroll") out.railScrollable = 0;',
+	'}',
+	'if (!narrow) {',
+	'  var shell = document.getElementById("shell"); var toggle = document.getElementById("railToggle");',
+	'  if (shell && toggle) {',
+	'    if (shell.classList.contains("rail-off")) toggle.click();',
+	'    out.panesOn = panes(); toggle.click(); out.panesOff = panes(); toggle.click();',
+	'  }',
 	'}',
 	'var d = document.createElement("div");',
 	'd.textContent = "RES" + "ULTS" + JSON.stringify(out) + "DO" + "NE";',
@@ -113,6 +126,10 @@ for (var wi = 0; wi < WIDTHS.length; wi++) {
 	if (r.railOverflow) bad.push('\u4fa7\u680f\u6a2a\u5411\u6ea2\u51fa ' + r.railOverflow + 'px')
 	if (!r.railScrollable) bad.push('\u4fa7\u680f\u5185\u5bb9\u8d85\u9ad8\u4f46\u4e0d\u53ef\u6eda\u52a8')
 	if (r.clipped && r.clipped.length) bad.push('\u88c1\u526a\uff1a' + r.clipped.join('\uff1b'))
+	if (r.w > 900) {
+		if (!r.panesOn || r.panesOn.inW < 240 || r.panesOn.outW < 240 || !r.panesOn.order || r.panesOn.rightGap > 2) bad.push('\u4fa7\u680f\u5c55\u5f00\u65f6\u8f93\u5165/\u8f93\u51fa\u9762\u677f\u5e03\u5c40\u5f02\u5e38 ' + JSON.stringify(r.panesOn))
+		if (!r.panesOff || r.panesOff.inW < 240 || r.panesOff.outW < 240 || !r.panesOff.order || r.panesOff.rightGap > 2) bad.push('\u4fa7\u680f\u6536\u8d77\u65f6\u8f93\u5165/\u8f93\u51fa\u9762\u677f\u5e03\u5c40\u5f02\u5e38 ' + JSON.stringify(r.panesOff))
+	}
 	if (bad.length) { fails++; console.log('  FAIL ' + w + 'px  ' + bad.join(' | ')) }
 	else console.log('  ok   ' + w + 'px  \u4fa7\u680f ' + r.railH + '/' + r.railView)
 }
