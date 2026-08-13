@@ -34,7 +34,7 @@ async function main() {
 	}
 
 	/* Service Worker 缓存名带上版本与内容哈希，避开旧壳残留 */
-	const shell = ['index.html', 'assets/style.css', 'assets/yaml.js', 'assets/convert.js', 'assets/app.js', 'assets/worker.js']
+	const shell = ['index.html', 'favicon.svg', 'manifest.webmanifest', 'assets/style.css', 'assets/yaml.js', 'assets/convert.js', 'assets/app.js', 'assets/worker.js']
 	const shellSources = []
 	for (const rel of shell) shellSources.push(await read(rel))
 	const engine = shellSources[shell.indexOf('assets/convert.js')]
