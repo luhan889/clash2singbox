@@ -71,7 +71,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        singbox: ['1.12.15', '1.13.18']
+        singbox: ['1.12.25', '1.13.21']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -96,7 +96,7 @@ jobs:
           test "$fail" -eq 0
 
   singbox-check-latest:
-    name: sing-box check + 官方 Schema (1.14.0-beta.14)
+    name: sing-box check + 官方 Schema (1.14.4)
     runs-on: ubuntu-latest
     needs: core-test
     timeout-minutes: 10
@@ -109,10 +109,10 @@ jobs:
         with:
           python-version: '3.12'
       - run: node tests/check.js --emit .ci-configs
-      - name: 安装 sing-box 1.14.0-beta.14
+      - name: 安装 sing-box 1.14.4
         run: |
           set -euo pipefail
-          version='1.14.0-beta.14'
+          version='1.14.4'
           curl -fsSL "https://github.com/SagerNet/sing-box/releases/download/v${version}/sing-box-${version}-linux-amd64.tar.gz" -o sing-box.tar.gz
           tar -xzf sing-box.tar.gz
           install -m 0755 "sing-box-${version}-linux-amd64/sing-box" /usr/local/bin/sing-box
