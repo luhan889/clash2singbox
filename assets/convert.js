@@ -25,7 +25,7 @@
 	var TARGET_CAPS = {
 		legacy: { modernDns: false, wireguardEndpoint: false, httpClient: false, schema: false, label: '1.11' },
 		modern: { modernDns: true, wireguardEndpoint: true, httpClient: false, schema: false, label: '1.12–1.13' },
-		latest: { modernDns: true, wireguardEndpoint: true, httpClient: true, schema: true, label: '1.14 beta' }
+		latest: { modernDns: true, wireguardEndpoint: true, httpClient: true, schema: true, label: '1.14' }
 	}
 	function targetCaps(target) { return TARGET_CAPS[target] || TARGET_CAPS.modern }
 

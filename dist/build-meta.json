@@ -1,9 +1,9 @@
 {
   "version": "1.3.6",
-  "buildId": "1.3.6-704f2eb15f",
+  "buildId": "1.3.6-4f3961686a",
   "bytes": {
-    "engine": 112566,
-    "ui": 77841,
-    "standalone": 191271
+    "engine": 112561,
+    "ui": 77828,
+    "standalone": 191253
   }
 }

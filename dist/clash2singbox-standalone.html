@@ -513,8 +513,8 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textar
 		<div class="toolbar-config" aria-label="转换目标">
 			<label class="field compact"><span>目标内核</span>
 				<select id="opt-target" data-opt="target">
-					<option value="modern">sing-box 1.12 – 1.13（稳定兼容・推荐）</option>
-					<option value="latest">sing-box 1.14 beta（实验性新格式）</option>
+					<option value="modern">sing-box 1.12 – 1.13（兼容模式・默认）</option>
+					<option value="latest">sing-box 1.14（当前稳定版）</option>
 					<option value="legacy">sing-box 1.11 旧版兼容</option>
 				</select>
 			</label>
@@ -1231,7 +1231,7 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textar
 	var TARGET_CAPS = {
 		legacy: { modernDns: false, wireguardEndpoint: false, httpClient: false, schema: false, label: '1.11' },
 		modern: { modernDns: true, wireguardEndpoint: true, httpClient: false, schema: false, label: '1.12–1.13' },
-		latest: { modernDns: true, wireguardEndpoint: true, httpClient: true, schema: true, label: '1.14 beta' }
+		latest: { modernDns: true, wireguardEndpoint: true, httpClient: true, schema: true, label: '1.14' }
 	}
 	function targetCaps(target) { return TARGET_CAPS[target] || TARGET_CAPS.modern }
 
@@ -3712,7 +3712,7 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, textar
 	var CLIENT_LABEL = { universal: '通用', android: 'SFA・Android', apple: 'SFI / SFM', desktop: 'sing-box 桌面版', gui: 'GUI.for.SingBox' }
 
 	function metaText(report) {
-		var bits = [report.target === 'legacy' ? 'sing-box 1.11' : report.target === 'latest' ? 'sing-box 1.14 beta' : 'sing-box 1.12–1.13']
+		var bits = [report.target === 'legacy' ? 'sing-box 1.11' : report.target === 'latest' ? 'sing-box 1.14' : 'sing-box 1.12–1.13']
 		bits.push(CLIENT_LABEL[report.preset] || '通用')
 		if (report.mode === 'nodes') bits.push(report.wrap === 'outbounds' ? '{ "outbounds": [ … ] }' : '数组 [ … ]')
 		else bits.push('落地 ' + (report.final || 'direct') + '，规则 ' + (report.rulesInput || 0) + ' → ' + (report.rules || 0))

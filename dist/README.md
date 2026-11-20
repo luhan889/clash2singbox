@@ -5,7 +5,7 @@
 解析、转换与校验全部在浏览器本地完成：**配置不上传、不存储，也不会请求第三方接口**。
 
 - 支持节点 JSON 与完整 `config.json` 两种输出
-- 覆盖 sing-box `1.11 legacy`、`1.12–1.13 stable` 和 `1.14 beta`（实验性）
+- 覆盖 sing-box `1.11 legacy`、`1.12–1.13 stable` 和 `1.14 stable`
 - 支持常见代理协议、策略组、规则、DNS、FakeIP 与远程规则集
 - 内置结构自检、分级诊断、Web Worker、虚拟渲染和 PWA 离线能力
 - CI 使用官方 `sing-box check` 校验多个内核版本
@@ -79,7 +79,7 @@ Minimal 不会删除 `password`、`uuid`、`tls.server_name`、`tls.utls`、`tls
 
 | 选项             | 默认值      | 说明                                                     |
 | ---------------- | ----------- | -------------------------------------------------------- |
-| 目标内核         | `1.12–1.13` | 可切换 `1.11 legacy`、`1.12–1.13 stable`、`1.14 beta`（实验性） |
+| 目标内核         | `1.12–1.13` | 可切换 `1.11 legacy`、`1.12–1.13 stable`、`1.14 stable` |
 | 客户端预设       | 自动识别    | 适配 SFA、SFI/SFM、桌面版和 GUI.for.SingBox              |
 | 过滤订阅信息节点 | 开          | 排除“剩余流量”“套餐到期”“订阅地址”等伪节点               |
 | 保留原节点名称   | 开          | 默认不清洗或改写节点名                                   |
@@ -137,14 +137,14 @@ Minimal 不会删除 `password`、`uuid`、`tls.server_name`、`tls.utls`、`tls
 
 | 客户端                      | 推荐目标              | 预设行为                                            |
 | --------------------------- | --------------------- | --------------------------------------------------- |
-| sing-box for Android（SFA） | `1.12–1.13` / `1.14 beta` | TUN 栈使用 `system`                            |
-| sing-box for iOS（SFI）     | `1.12–1.13` / `1.14 beta` | TUN 栈使用 `gvisor`，不下发 `strict_route`     |
-| sing-box for macOS（SFM）   | `1.12–1.13` / `1.14 beta` | 同 SFI                                         |
-| sing-box 桌面版 / CLI       | `1.12–1.13` / `1.14 beta` | 开启 `strict_route`                            |
-| GUI.for.SingBox             | `1.12–1.13` / `1.14 beta` | 保留 Clash API；节点 JSON 默认使用 `outbounds` 包装 |
+| sing-box for Android（SFA） | `1.12–1.13` / `1.14 stable` | TUN 栈使用 `system`                            |
+| sing-box for iOS（SFI）     | `1.12–1.13` / `1.14 stable` | TUN 栈使用 `gvisor`，不下发 `strict_route`     |
+| sing-box for macOS（SFM）   | `1.12–1.13` / `1.14 stable` | 同 SFI                                         |
+| sing-box 桌面版 / CLI       | `1.12–1.13` / `1.14 stable` | 开启 `strict_route`                            |
+| GUI.for.SingBox             | `1.12–1.13` / `1.14 stable` | 保留 Clash API；节点 JSON 默认使用 `outbounds` 包装 |
 | NekoBox / Hiddify 等旧内核  | `1.11 legacy`         | 输出旧版 DNS 与 FakeIP 结构                         |
 
-> `1.14 beta` 采用新格式并通过当前 beta 版本的 CI 校验；生产环境仍建议优先选择 `1.12–1.13 stable`。
+> 使用 1.14 内核时请选择 `1.14 stable`。CI 使用 1.14.4 的官方 Schema 和 `sing-box check` 校验生成的配置。1.15 仍处于 alpha 阶段。
 
 > 输出不会使用已在 sing-box 1.13 移除的 `block` / `dns` 出站，也不会使用已在 1.12 移除的 `geosite` / `geoip` 规则字段。
 
