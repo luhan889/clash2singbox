@@ -159,21 +159,21 @@
 
 	<section class="pane" id="paneIn" aria-label="Clash 配置输入">
 		<div class="pane-head">
-			<h2>Clash / mihomo YAML</h2>
+			<h2><label for="yaml">YAML 输入</label></h2>
 			<div class="pane-tools">
-				<button class="btn tiny" id="pick" type="button">选择文件</button>
-				<button class="btn tiny ghost" id="sample" type="button">示例</button>
+				<button class="btn tiny" id="pick" type="button">导入 YAML</button>
+				<button class="btn tiny ghost" id="sample" type="button">载入示例</button>
 				<button class="btn tiny ghost" id="clear" type="button">清空</button>
 				<input type="file" id="file" accept=".yaml,.yml,.txt,.conf" hidden>
 			</div>
 		</div>
-		<textarea id="yaml" aria-label="Clash / mihomo YAML 配置" spellcheck="false" autocomplete="off" placeholder="粘贴 Clash / mihomo 配置，或拖入 .yaml 文件……&#10;&#10;快捷键：Ctrl/⌘ + Enter 转换・Ctrl/⌘ + S 下载・Ctrl/⌘ + K 复制・Ctrl/⌘ + O 打开文件・Ctrl/⌘ + D 主题"></textarea>
-		<div class="pane-foot"><span id="inputMeta">等待输入</span><span class="live-state"><i aria-hidden="true"></i>自动转换</span></div>
+		<textarea id="yaml" aria-label="Clash / mihomo YAML 配置" spellcheck="false" autocomplete="off" placeholder="粘贴 Clash / mihomo YAML，或将文件拖到这里…" title="Ctrl/⌘ + Enter 转换 · O 打开文件 · S 下载 · K 复制 · D 切换主题（均配合 Ctrl/⌘）"></textarea>
+		<div class="pane-foot"><span id="inputMeta">等待输入</span><a class="jump-output" href="#paneOut">查看输出 ↓</a><span class="live-state"><i aria-hidden="true"></i>自动转换</span></div>
 	</section>
 
 	<div class="split" id="split2" role="separator" aria-orientation="vertical" tabindex="0" aria-label="拖动调节输入与输出区宽度" title="拖动调节宽度（方向键微调・双击复位）"></div>
 
-	<section class="pane" id="paneOut" aria-label="sing-box 配置输出">
+	<section class="pane" id="paneOut" tabindex="-1" aria-label="sing-box 配置输出">
 		<div class="pane-head">
 			<h2 id="outTitle">sing-box config.json</h2>
 			<div class="pane-tools">
@@ -186,7 +186,8 @@
 			<pre class="code" id="code" aria-live="off"></pre>
 			<div class="empty" id="empty">
 				<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16M4 12h10M4 19h7"/></svg>
-				<p>输入 Clash 配置后，这里实时展示 sing-box 配置</p>
+				<strong>JSON 预览</strong>
+				<p>粘贴 YAML 或载入示例，即可查看转换结果。</p>
 			</div>
 		</div>
 		<div class="stats" id="stats" aria-label="转换统计">
